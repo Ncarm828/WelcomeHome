@@ -19,17 +19,11 @@ import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 
-/**
- * MyApplicationActivity - The starting point for creating your own Hue App.  
- * Currently contains a simple view with a button to change your lights to random colours.  Remove this and add your own app implementation here! Have fun!
- * 
- * @author SteveyO
- *
- */
 public class MyApplicationActivity extends Activity {
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE=65535;
     public static final String TAG = "QuickStart";
+    private static boolean PastLightStatus = false;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +31,9 @@ public class MyApplicationActivity extends Activity {
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
         phHueSDK = PHHueSDK.create();
+
+
+
         Button randomButton;
         randomButton = (Button) findViewById(R.id.buttonRand);
         randomButton.setOnClickListener(new OnClickListener() {
@@ -51,20 +48,31 @@ public class MyApplicationActivity extends Activity {
     }
 
     public void randomLights() {
+
         PHBridge bridge = phHueSDK.getSelectedBridge();
 
-        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        Random rand = new Random();
-        
-        for (PHLight light : allLights) {
-            PHLightState lightState = new PHLightState();
-            lightState.setHue(rand.nextInt(MAX_HUE));
-            // To validate your lightstate is valid (before sending to the bridge) you can use:  
-            // String validState = lightState.validateState();
-            bridge.updateLightState(light, lightState, listener);
-            //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.
+       // List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        PHLightState lightState = new PHLightState();
+
+        PHLight light = bridge.getResourceCache().getLights().get("2");
+
+        if (PastLightStatus){
+
+            lightState.setOn(false);
+            lightState.setTransitionTime(0);
+            PastLightStatus = false;
+        }else{
+            lightState.setOn(true);
+            lightState.setBrightness(100);
+            lightState.setTransitionTime(0);
+            PastLightStatus = true;
         }
+
+        System.out.println("Toggling Light State: " + lightState.isOn());
+        bridge.updateLightState(light, lightState, listener);
+
     }
+
     // If you want to handle the response from the bridge, create a PHLightListener object.
     PHLightListener listener = new PHLightListener() {
         

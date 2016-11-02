@@ -2,6 +2,24 @@
 <items version="2" >
 
     <item
+        is-multidex="false"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huesdkresources.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.0"
+        sha1="7183fbb86900448556ef87d3af0db01a77c27a09">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huesdkresources_5deb8936839c36a5637c1a353876646188bcdb00.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.0"
+        sha1="07362e192094e402e032db4407c86e36080340ab">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b.jar" />
+    </item>
+    <item
         is-multidex="true"
         jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
@@ -9,15 +27,6 @@
         revision="24.0.0"
         sha1="fabdea62b2e63c6ff9a9030649c776118d7d67c4">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_47280e1d38a125e7dc4e08ede5c035174aaffc73\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="07362e192094e402e032db4407c86e36080340ab">
-        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -36,6 +45,15 @@
         revision="24.0.0"
         sha1="7183fbb86900448556ef87d3af0db01a77c27a09">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huesdkresources_5deb8936839c36a5637c1a353876646188bcdb00\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="07362e192094e402e032db4407c86e36080340ab">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b\classes.dex" />
     </item>
 
 </items>
