@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.lighting.quickstart.test">
+    package="com.philips.lighting.quickstart.test" >
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="23" />
+
+    <instrumentation
+        android:name="android.support.test.runner.AndroidJUnitRunner"
+        android:functionalTest="false"
+        android:handleProfiling="false"
+        android:label="Tests for com.philips.lighting.quickstart"
+        android:targetPackage="com.philips.lighting.quickstart" />
 
     <application>
         <uses-library android:name="android.test.runner" />
     </application>
 
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="com.philips.lighting.quickstart"
-                     android:handleProfiling="false"
-                     android:functionalTest="false"
-                     android:label="Tests for com.philips.lighting.quickstart"/>
 </manifest>

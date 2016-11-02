@@ -5,29 +5,29 @@
     density="tvdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="140047777283602"
+    timestamp="152916383294803"
     token="-9182932624023177363"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="143" />
+        duration="535" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="20" />
+        duration="434" />
     <task
         name="verifier"
-        duration="2" />
+        duration="139" />
 
     <artifact
         location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\outputs\apk\app-debug.apk"
         type="MAIN" />
 
     <build
-        timestamp="140047777283602"
+        timestamp="152916383294803"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\outputs\apk\app-debug.apk"

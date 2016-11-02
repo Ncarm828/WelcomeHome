@@ -2,22 +2,22 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huesdkresources.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="7183fbb86900448556ef87d3af0db01a77c27a09">
-        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huesdkresources_5deb8936839c36a5637c1a353876646188bcdb00.jar" />
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_be1d298f7b68a6d1590f4b5442a54bfb233bd364\classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="07362e192094e402e032db4407c86e36080340ab">
-        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b.jar" />
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_ec494d1d2aa1b9f3d9be182ecc1fb4d3fcea0617\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -30,11 +30,92 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_49e29175dc84475313646c189aa357be0f4eed46\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_db55f9e45bdf0e3413294e468df508b80354d50d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_84ee43e40dd0b606f3bd84140f8b99ba585f1251\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.4.0_bb1f0d9f1a07c734f615b7be5a9c2e6230847304\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_ec3d85edee63fc67066be923394400b64a93c56e\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.0"
+        sha1="07362e192094e402e032db4407c86e36080340ab">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="07362e192094e402e032db4407c86e36080340ab">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicks\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_46ca5bd1adc0f6c1e2d70f82fd99865e2bcfd7dc\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huesdkresources.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.0"
+        sha1="7183fbb86900448556ef87d3af0db01a77c27a09">
+        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\pre-dexed\debug\huesdkresources_5deb8936839c36a5637c1a353876646188bcdb00.jar" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="c6e13cffc8e8af113145cd92bae34bd4e6e472b1">
+        sha1="bedc1c79767cf8cc04cc4117323ead5f52f25177">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_74070e183fdc603f9bbcf7c55af0cb79a5a753ef\classes.dex" />
     </item>
     <item
@@ -45,15 +126,6 @@
         revision="24.0.0"
         sha1="7183fbb86900448556ef87d3af0db01a77c27a09">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huesdkresources_5deb8936839c36a5637c1a353876646188bcdb00\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\libs\huelocalsdk.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="07362e192094e402e032db4407c86e36080340ab">
-        <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\2\huelocalsdk_fac4805695d7bbf1d49c50a31a5688bf6944336b\classes.dex" />
     </item>
 
 </items>
