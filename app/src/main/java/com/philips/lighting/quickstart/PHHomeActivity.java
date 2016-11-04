@@ -25,19 +25,7 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHHueParsingError;
 
-/**
- * PHHomeActivity - The starting point in your own Hue App.
- * 
- * For first time use, a Bridge search (UPNP) is performed and a list of all available bridges is displayed (and clicking one of them shows the PushLink dialog allowing authentication).
- * The last connected Bridge IP Address and Username are stored in SharedPreferences.
- * 
- * For subsequent usage the app automatically connects to the last connected bridge.
- * When connected the MyApplicationActivity Activity is started.  This is where you should start implementing your Hue App!  Have fun!
- * 
- * For explanation on key concepts visit: https://github.com/PhilipsHue/PhilipsHueSDK-Java-MultiPlatform-Android
- * 
- *
- */
+
 public class PHHomeActivity extends Activity implements OnItemClickListener {
 
     private PHHueSDK phHueSDK;
