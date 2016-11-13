@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hue QuickStart</string>
+    <string name="app_name">Welcome Home</string>
     <string name="action_settings">Settings</string>
     <string name="no_bridge">No Bridge Found.   Start Bridge Search</string>
     <string name="btn_refresh">Refresh</string>
@@ -29,4 +29,13 @@
     <string name="title_error">Error</string>
     <string name="txt_last_heartbeat">Last Heartbeat : </string>
     <string name="title_activity_start">StartActivity</string>
+
+    <!-- Need to change these, just place holder to get things working -->
+    <string name="action_add_favourite">Edit</string>
+    <string name="action_play_next">Remove</string>
+    <string name="backdrop_title">A HOME YOUR WAY</string>
+    <string name="backdrop_subtitle">Different profiles for different moods</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

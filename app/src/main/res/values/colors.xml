@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="gray">#444440</color>
     <color name="black_overlay">#66000000</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="mustard">#FFCC11</color>
+
+    <!-- Need to change name, just place holder to get things working -->
+    <color name="ProfileName">#4c4c4c</color>
 </resources>

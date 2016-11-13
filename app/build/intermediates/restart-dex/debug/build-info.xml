@@ -5,22 +5,22 @@
     density="tvdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="155517923268738"
+    timestamp="110076897275940"
     token="-9182932624023177363"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="425" />
+        duration="561" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="100" />
+        duration="246" />
     <task
         name="verifier"
-        duration="18" />
+        duration="23" />
 
     <artifact
         location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\outputs\apk\app-debug.apk"
