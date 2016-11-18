@@ -1,15 +1,12 @@
 package com.philips.lighting.quickstart.Activity;
 
 //Other imports
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager; //keep for now
 import android.app.FragmentTransaction; //keep for now
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View.OnClickListener; //keep for now
@@ -22,6 +19,8 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHBridgeResource;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
+import com.philips.lighting.quickstart.DataClass.DBHelper;
+import com.philips.lighting.quickstart.Fragment.ProfileAddFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileFragment;
 import com.philips.lighting.quickstart.R;
 
@@ -31,28 +30,36 @@ public class MyApplicationActivity extends Activity {
     //Hue variables
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE=65535;
+    private final String TAG = "PHSDKAPP";
+    private DBHelper mydb;
+
+    //Fragment objects
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    ProfileFragment MainDisplayFragment;
+    ProfileAddFragment AddFragment;
 
 
 
-    private int mContainerId;
-    private FragmentTransaction fragmentTransaction;
-    private FragmentManager fragmentManager;
-    private final static String TAG = "MyApplicationActivity";
-
-
-    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
 
+        //Database
+        mydb = new DBHelper(this);
+
         phHueSDK = PHHueSDK.create(); //Connects to Philips SDK
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ProfileFragment fragment = new ProfileFragment();
-        fragmentTransaction.add(R.id.MainFragmentChange, fragment);
+        //Create one instance of this object
+        AddFragment = new ProfileAddFragment();
+        MainDisplayFragment = new ProfileFragment();
+
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.MainFragmentChange, MainDisplayFragment);
         fragmentTransaction.commit();
 
     }
@@ -71,7 +78,7 @@ public class MyApplicationActivity extends Activity {
         }
     }
 
-    // If you want to handle the response from the bridge, create a PHLightListener object.
+    // Handle the response from the bridge, create a PHLightListener object.
     private PHLightListener listener = new PHLightListener() {
 
         @Override
@@ -102,22 +109,28 @@ public class MyApplicationActivity extends Activity {
         return phHueSDK;
     }
 
+    //Method so the fragments can use the Light Listen
     public PHLightListener GetMyListener(){
         return listener;
     }
 
+    public DBHelper GetMyDB(){
+        return mydb;
+    }
 
-    public void replaceFragment(Fragment fragment, String TAG) {
+    public void replaceFragment(String name) {
 
-        try {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(mContainerId, fragment, TAG);
-            fragmentTransaction.addToBackStack(TAG);
-            fragmentTransaction.commitAllowingStateLoss();
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-        } catch (Exception e) {
-            // TODO: handle exception
+        if (name == "ProfileAddFragment") {
+            fragmentTransaction.replace(R.id.MainFragmentChange, MainDisplayFragment);
+        }else if(name == "ProfileFragment"){
+            fragmentTransaction.replace(R.id.MainFragmentChange, AddFragment);
         }
+        fragmentTransaction.commit();
+
+        Log.v(TAG,"We have some major issues");
 
     }
 }

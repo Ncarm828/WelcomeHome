@@ -1,19 +1,31 @@
 package com.philips.lighting.quickstart.Fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState; //Keep for now
 
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
+import com.philips.lighting.quickstart.DataClass.DBHelper;
 import com.philips.lighting.quickstart.R;
+
+import java.io.ByteArrayOutputStream;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,6 +34,17 @@ public class ProfileAddFragment extends Fragment {
 
     private static boolean PastLightStatus = false;
     private MyApplicationActivity activity;
+
+    private DBHelper mydb;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 0;
+
+    private TextView name ;
+    private TextView Picture;
+    private ToggleButton Default;
+    private ImageView CurrentPicture;
+
+    public String ClassName = "ProfileAddFragment";
 
     public ProfileAddFragment() {
         // Required empty public constructor
@@ -36,9 +59,59 @@ public class ProfileAddFragment extends Fragment {
 
         activity = (MyApplicationActivity) getActivity();
 
+        name = (TextView) view.findViewById(R.id.editTextName);
+        Picture = (TextView) view.findViewById(R.id.CameraPictureSetting);
+        Default = (ToggleButton) view.findViewById(R.id.DefaultToggleButton);
+        CurrentPicture = (ImageView) view.findViewById(R.id.ProfilePicture);
+
+        //Grabs the database object from the Activity
+        mydb = activity.GetMyDB();
+
+        Button SaveButton;
+        SaveButton = (Button) view.findViewById(R.id.SaveSettingsButton);
+        SaveButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(name.getText().toString().trim().length() != 0){
+                    SaveProfile(v);
+                }else{
+
+                }
+                //Create New Database here
+            }
+        });
+
+        Button SearchImage;
+        SearchImage = (Button) view.findViewById(R.id.CameraPictureSetting);
+        SearchImage.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+
+        });
+
+        Button CancelButton;
+        CancelButton = (Button)view.findViewById(R.id.CancelButton);
+        CancelButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                activity.replaceFragment(ClassName);
+            }
+
+        });
+
+        //currently trying to get the default data into database
+        //after try and get picture off the internet and store into database
+        //figure out how to create new database based off each row in the first database
+
+
         //used to turn light on and off
         //current the layout has changed so the button does show
-        Button randomButton;
+       /* Button randomButton;
         randomButton = (Button) view.findViewById(R.id.button);
         randomButton.setOnClickListener(new View.OnClickListener() {
 
@@ -47,7 +120,7 @@ public class ProfileAddFragment extends Fragment {
                 TurnLightsOn();
             }
 
-        });
+        });*/
 
         return view;
     }
@@ -82,4 +155,42 @@ public class ProfileAddFragment extends Fragment {
 
         }
 
+    //Used for saving the new profile entry into the database
+    public void SaveProfile(View view) {
+        if(mydb.insertProfile(name.getText().toString(),BitmapToByteArrayConverter(CurrentPicture),Default.isChecked())){
+                    Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
+                } else{
+                    Toast.makeText(getActivity(), "not done",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+    //Creates a call to the camera
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    //The Activity handles this call but in this case the fragment is wanting the return of the camera ans the image
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            CurrentPicture.setImageBitmap(imageBitmap);
+        }
+    }
+
+    //Helper function that takes in an image view and changes it to a char array
+    //needed for the database
+    private byte[] BitmapToByteArrayConverter(ImageView bmp){
+        bmp.buildDrawingCache(); //problem is here
+        Bitmap bm = bmp.getDrawingCache();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 }

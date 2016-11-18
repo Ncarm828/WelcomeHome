@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
+import com.philips.lighting.quickstart.DataClass.DBHelper;
 import com.philips.lighting.quickstart.DataClass.PersonalSettings;
 import com.philips.lighting.quickstart.R;
 
@@ -34,6 +35,11 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerView;
     private PersonalSettingAdapter adapter;
     private List<PersonalSettings> albumList;
+    public String ClassName = "ProfileFragment";
+
+    private MyApplicationActivity activity;
+
+    private DBHelper mydb;
 
 
     public ProfileFragment() {
@@ -46,6 +52,12 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        //Get the MainActivity
+        activity = (MyApplicationActivity) getActivity();
+
+        //Grabs the database object from the Activity
+        mydb = activity.GetMyDB();
 
         //gets the view, adapter and recycle view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -60,7 +72,8 @@ public class ProfileFragment extends Fragment {
         //places actual items within the cards
         preparePersonalSettingCards();
 
-        initCollapsingToolbar(view); //Will show and hide the toolbar title on scroll
+        //Will show and hide the toolbar title on scroll
+        initCollapsingToolbar(view);
 
         //Places image at top of the screen
         try {
@@ -73,8 +86,7 @@ public class ProfileFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                activity.replaceFragment(ClassName);
             }
         });
 
@@ -88,6 +100,7 @@ public class ProfileFragment extends Fragment {
      * need to change this
      */
     private void preparePersonalSettingCards() {
+
         int[] covers = new int[]{
                 R.drawable.album1,
                 R.drawable.album2,

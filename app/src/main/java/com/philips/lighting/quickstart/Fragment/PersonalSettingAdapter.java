@@ -1,8 +1,6 @@
 package com.philips.lighting.quickstart.Fragment;
 
 import android.content.Context;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -97,7 +95,7 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Edit", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
@@ -112,8 +110,5 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
     public int getItemCount() {
         return albumList.size();
     }
-
-
-
 
 }
