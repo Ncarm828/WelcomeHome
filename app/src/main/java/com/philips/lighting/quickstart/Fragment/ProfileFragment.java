@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import com.philips.lighting.quickstart.DataClass.PersonalSettings;
 import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +34,7 @@ public class ProfileFragment extends Fragment {
     //Card variables
     private RecyclerView recyclerView;
     private PersonalSettingAdapter adapter;
-    private List<PersonalSettings> albumList;
+    private ArrayList<PersonalSettings> ProfileList;
     public String ClassName = "ProfileFragment";
 
     private MyApplicationActivity activity;
@@ -61,8 +61,8 @@ public class ProfileFragment extends Fragment {
 
         //gets the view, adapter and recycle view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        albumList = new ArrayList<>();
-        adapter = new PersonalSettingAdapter(getActivity(), albumList);
+        ProfileList = new ArrayList<>();
+        adapter = new PersonalSettingAdapter(getActivity(),mydb);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new ProfileFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -96,54 +96,9 @@ public class ProfileFragment extends Fragment {
 
 
     /**
-     * Adding few albums for testing
-     * need to change this
+     * This will take all the data from the database and display it to the user
      */
     private void preparePersonalSettingCards() {
-
-        int[] covers = new int[]{
-                R.drawable.album1,
-                R.drawable.album2,
-                R.drawable.album3,
-                R.drawable.album4,
-                R.drawable.album5,
-                R.drawable.album6,
-                R.drawable.album7,
-                R.drawable.album8,
-                R.drawable.album9,
-                R.drawable.album10,
-                R.drawable.album11};
-
-        PersonalSettings a = new PersonalSettings("True Romance", true, covers[0]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Xscpae", false, covers[1]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Maroon 5", false, covers[2]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Born to Die", false, covers[3]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Honeymoon", false, covers[4]);
-        albumList.add(a);
-
-        a = new PersonalSettings("I Need a Doctor", false, covers[5]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Loud", false, covers[6]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Legend", false, covers[7]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Hello", false, covers[8]);
-        albumList.add(a);
-
-        a = new PersonalSettings("Greatest Hits", false, covers[9]);
-        albumList.add(a);
-
         adapter.notifyDataSetChanged();
     }
 

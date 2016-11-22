@@ -4,14 +4,17 @@ package com.philips.lighting.quickstart.Fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,7 +27,6 @@ import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.DBHelper;
 import com.philips.lighting.quickstart.R;
 
-import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -40,6 +42,7 @@ public class ProfileAddFragment extends Fragment {
     private static final int REQUEST_IMAGE_CAPTURE = 0;
 
     private TextView name ;
+    private TextView warningMessage;
     private TextView Picture;
     private ToggleButton Default;
     private ImageView CurrentPicture;
@@ -60,6 +63,7 @@ public class ProfileAddFragment extends Fragment {
         activity = (MyApplicationActivity) getActivity();
 
         name = (TextView) view.findViewById(R.id.editTextName);
+        warningMessage = (TextView) view.findViewById(R.id.textViewInformation);
         Picture = (TextView) view.findViewById(R.id.CameraPictureSetting);
         Default = (ToggleButton) view.findViewById(R.id.DefaultToggleButton);
         CurrentPicture = (ImageView) view.findViewById(R.id.ProfilePicture);
@@ -76,7 +80,12 @@ public class ProfileAddFragment extends Fragment {
                 if(name.getText().toString().trim().length() != 0){
                     SaveProfile(v);
                 }else{
+                    name.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+                    warningMessage.setVisibility(View.VISIBLE);
+                    Snackbar snackbar = Snackbar
+                            .make(view, "There were some elements missing", Snackbar.LENGTH_LONG);
 
+                    snackbar.show();
                 }
                 //Create New Database here
             }
@@ -93,13 +102,27 @@ public class ProfileAddFragment extends Fragment {
 
         });
 
-        Button CancelButton;
-        CancelButton = (Button)view.findViewById(R.id.CancelButton);
-        CancelButton.setOnClickListener(new View.OnClickListener() {
+        Button ToggleButton;
+        ToggleButton = (Button)view.findViewById(R.id.CancelButton);
+        ToggleButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 activity.replaceFragment(ClassName);
+            }
+
+        });
+
+
+        Default.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(!Default.isChecked()) {
+                    Default.setTextColor(getResources().getColor(R.color.red));
+                }else{
+                    Default.setTextColor(getResources().getColor(R.color.green));
+                }
             }
 
         });
@@ -157,13 +180,14 @@ public class ProfileAddFragment extends Fragment {
 
     //Used for saving the new profile entry into the database
     public void SaveProfile(View view) {
-        if(mydb.insertProfile(name.getText().toString(),BitmapToByteArrayConverter(CurrentPicture),Default.isChecked())){
-                    Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
-                } else{
-                    Toast.makeText(getActivity(), "not done",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
+        if(mydb.insertProfile(name.getText().toString(),CurrentPicture,Default.isChecked())){
+            Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+            activity.replaceFragment(ClassName);
+        } else{
+            Toast.makeText(getActivity(), "Not Saved, there were some issues",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     //Creates a call to the camera
@@ -182,15 +206,5 @@ public class ProfileAddFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             CurrentPicture.setImageBitmap(imageBitmap);
         }
-    }
-
-    //Helper function that takes in an image view and changes it to a char array
-    //needed for the database
-    private byte[] BitmapToByteArrayConverter(ImageView bmp){
-        bmp.buildDrawingCache(); //problem is here
-        Bitmap bm = bmp.getDrawingCache();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
     }
 }

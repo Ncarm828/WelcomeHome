@@ -36,8 +36,8 @@
     <string name="Search">Search</string>
 
     <!-- Need to change these, just place holder to get things working -->
-    <string name="action_add_favourite">Edit</string>
-    <string name="action_play_next">Remove</string>
+    <string name="Edit">Edit</string>
+    <string name="Remove">Remove</string>
     <string name="backdrop_title">A HOME YOUR WAY</string>
     <string name="backdrop_subtitle">Different profiles for different moods</string>
 

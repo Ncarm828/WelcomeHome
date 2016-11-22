@@ -7,6 +7,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="mustard">#FFCC11</color>
+    <color name="red">#e50000</color>
+    <color name="green">#009900</color>
 
     <!-- Need to change name, just place holder to get things working -->
     <color name="ProfileName">#4c4c4c</color>

@@ -130,7 +130,6 @@ public class MyApplicationActivity extends Activity {
         }
         fragmentTransaction.commit();
 
-        Log.v(TAG,"We have some major issues");
 
     }
 }
