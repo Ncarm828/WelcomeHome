@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,7 +23,7 @@ import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState; //Keep for now
 
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.DataClass.DBHelper;
+import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.R;
 
 
@@ -122,6 +121,7 @@ public class ProfileAddFragment extends Fragment {
                     Default.setTextColor(getResources().getColor(R.color.red));
                 }else{
                     Default.setTextColor(getResources().getColor(R.color.green));
+
                 }
             }
 

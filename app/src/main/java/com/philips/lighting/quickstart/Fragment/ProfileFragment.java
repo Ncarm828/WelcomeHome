@@ -11,7 +11,6 @@ import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.DataClass.DBHelper;
-import com.philips.lighting.quickstart.DataClass.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
+import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.dummy.PersonalSettingAdapter;
 import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
