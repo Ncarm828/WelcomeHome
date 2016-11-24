@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHLight;
 import com.philips.lighting.quickstart.Fragment.ListOfLightsFragment;
 import com.philips.lighting.quickstart.R;
 
@@ -14,12 +16,12 @@ import java.util.List;
 
 public class MyListOfLightsRecyclerViewAdapter extends RecyclerView.Adapter<MyListOfLightsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ListOfLightContent> mValues;
-    private final ListOfLightsFragment.OnListFragmentInteractionListener mListener;
 
-    public MyListOfLightsRecyclerViewAdapter(List<ListOfLightContent> items, ListOfLightsFragment.OnListFragmentInteractionListener listener) {
-        mValues = items;
-        mListener = listener;
+    private PHBridge bridge;
+    private List<PHLight> allLights;
+
+    public MyListOfLightsRecyclerViewAdapter(List<PHLight> items) {
+        allLights = items;
     }
 
     @Override
@@ -31,25 +33,21 @@ public class MyListOfLightsRecyclerViewAdapter extends RecyclerView.Adapter<MyLi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-      /*  holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);*/
+       // holder.mItem = mValues.get(position);
+        holder.mIdView.setText(allLights.get(position).getIdentifier());
+        holder.mContentView.setText(allLights.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                   // mListener.onListFragmentInteraction(holder.mItem);
-                }
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return allLights.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

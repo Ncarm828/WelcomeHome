@@ -2449,7 +2449,7 @@ containing a value of this type.
         public static final int SubmitLinearLayout=0x7f0c0090;
         public static final int WenPictureSettings=0x7f0c008b;
         public static final int action0=0x7f0c0094;
-        public static final int action_add_favourite=0x7f0c00ac;
+        public static final int action_add_favourite=0x7f0c00ad;
         public static final int action_bar=0x7f0c005a;
         public static final int action_bar_activity_content=0x7f0c0000;
         public static final int action_bar_container=0x7f0c0059;
@@ -2464,7 +2464,7 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0c0057;
         public static final int action_mode_bar_stub=0x7f0c0056;
         public static final int action_mode_close_button=0x7f0c003c;
-        public static final int action_play_next=0x7f0c00ad;
+        public static final int action_play_next=0x7f0c00ae;
         public static final int active=0x7f0c00a3;
         public static final int activity_chooser_view_content=0x7f0c003d;
         public static final int activity_splash_screen=0x7f0c006c;
@@ -2475,9 +2475,10 @@ containing a value of this type.
         public static final int backdrop=0x7f0c0081;
         public static final int beginning=0x7f0c0031;
         public static final int bottom=0x7f0c001d;
-        public static final int bridge_ip=0x7f0c00a9;
+        public static final int bridge_ip=0x7f0c00aa;
         public static final int bridge_list=0x7f0c006f;
-        public static final int bridge_mac=0x7f0c00a8;
+        public static final int bridge_mac=0x7f0c00a9;
+        public static final int button=0x7f0c006b;
         public static final int buttonPanel=0x7f0c0044;
         public static final int cancel_action=0x7f0c0095;
         public static final int card_view=0x7f0c00a1;
@@ -2492,7 +2493,7 @@ containing a value of this type.
         public static final int collapsing_toolbar=0x7f0c0080;
         public static final int content=0x7f0c007c;
         public static final int contentPanel=0x7f0c004a;
-        public static final int countdownPB=0x7f0c00a7;
+        public static final int countdownPB=0x7f0c00a8;
         public static final int custom=0x7f0c0050;
         public static final int customPanel=0x7f0c004f;
         public static final int decor_content_parent=0x7f0c0058;
@@ -2518,7 +2519,7 @@ containing a value of this type.
         public static final int fill=0x7f0c002e;
         public static final int fill_horizontal=0x7f0c002f;
         public static final int fill_vertical=0x7f0c0022;
-        public static final int find_new_bridge=0x7f0c00ab;
+        public static final int find_new_bridge=0x7f0c00ac;
         public static final int fixed=0x7f0c0038;
         public static final int home=0x7f0c0004;
         public static final int homeAsUp=0x7f0c000f;
@@ -2526,7 +2527,7 @@ containing a value of this type.
         public static final int id=0x7f0c007b;
         public static final int ifRoom=0x7f0c0035;
         public static final int image=0x7f0c003f;
-        public static final int imageView1=0x7f0c006b;
+        public static final int imageView1=0x7f0c00a7;
         public static final int info=0x7f0c009f;
         public static final int item_touch_helper_previous_elevation=0x7f0c0005;
         public static final int left=0x7f0c0023;
@@ -2554,7 +2555,7 @@ containing a value of this type.
         public static final int progress_horizontal=0x7f0c0007;
         public static final int radio=0x7f0c0054;
         public static final int recycler_view=0x7f0c0071;
-        public static final int refresh=0x7f0c00aa;
+        public static final int refresh=0x7f0c00ab;
         public static final int right=0x7f0c0024;
         public static final int screen=0x7f0c0028;
         public static final int scroll=0x7f0c0018;

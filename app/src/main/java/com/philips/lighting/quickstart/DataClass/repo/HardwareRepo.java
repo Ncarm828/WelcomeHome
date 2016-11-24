@@ -1,6 +1,7 @@
 package com.philips.lighting.quickstart.DataClass.repo;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -48,6 +49,19 @@ public class HardwareRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(Hardware.TABLE,null,null);
         DatabaseManager.getInstance().closeDatabase();
+    }
+
+
+    public static boolean CheckIsDataAlreadyInDBorNot(String fieldValue) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        String Query = "Select * from " + Hardware.TABLE + " where " + Hardware.KEY_Name + " = " + fieldValue;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
 }

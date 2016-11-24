@@ -23,21 +23,16 @@ import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState; //Keep for now
 
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
-import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
 import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
-import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class ProfileAddFragment extends Fragment {
 
-    private static boolean PastLightStatus = false;
+
     private MyApplicationActivity activity;
 
    // private DBHelper mydb;
@@ -77,9 +72,9 @@ public class ProfileAddFragment extends Fragment {
         profileSettingRepo = activity.getProfileSettingRepo();
 
 
-        Button SaveButton;
-        SaveButton = (Button) view.findViewById(R.id.SaveSettingsButton);
-        SaveButton.setOnClickListener(new View.OnClickListener() {
+        Button CreateProfileButton;
+        CreateProfileButton = (Button) view.findViewById(R.id.SaveSettingsButton);
+        CreateProfileButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -93,7 +88,6 @@ public class ProfileAddFragment extends Fragment {
 
                     snackbar.show();
                 }
-                //Create New Database here
             }
         });
 
@@ -108,9 +102,9 @@ public class ProfileAddFragment extends Fragment {
 
         });
 
-        Button ToggleButton;
-        ToggleButton = (Button)view.findViewById(R.id.CancelButton);
-        ToggleButton.setOnClickListener(new View.OnClickListener() {
+        Button CancelButton;
+        CancelButton = (Button)view.findViewById(R.id.CancelButton);
+        CancelButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -134,56 +128,8 @@ public class ProfileAddFragment extends Fragment {
 
         });
 
-        //currently trying to get the default data into database
-        //after try and get picture off the internet and store into database
-        //figure out how to create new database based off each row in the first database
-
-
-        //used to turn light on and off
-        //current the layout has changed so the button does show
-       /* Button randomButton;
-        randomButton = (Button) view.findViewById(R.id.button);
-        randomButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                TurnLightsOn();
-            }
-
-        });*/
-
         return view;
     }
-
-
-    //This is the function to turn lights on and off
-    //unused for now, will use later
-    public void TurnLightsOn() {
-
-
-            PHBridge bridge = activity.GetMySDK().getSelectedBridge();
-
-            // List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-            PHLightState lightState = new PHLightState();
-
-            PHLight light = bridge.getResourceCache().getLights().get("2");
-
-            if (PastLightStatus) {
-
-                lightState.setOn(false);
-                lightState.setTransitionTime(0);
-                PastLightStatus = false;
-            } else {
-                lightState.setOn(true);
-                lightState.setBrightness(100);
-                lightState.setTransitionTime(0);
-                PastLightStatus = true;
-            }
-
-            System.out.println("Toggling Light State: " + lightState.isOn());
-            bridge.updateLightState(light, lightState, activity.GetMyListener());
-
-        }
 
     //Used for saving the new profile entry into the database
     public void SaveProfile(View view) {
@@ -195,7 +141,7 @@ public class ProfileAddFragment extends Fragment {
 
         if(profileSettingRepo.insert(personalSettings) > 0){ //returns the ID of the item we just placed
             Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
-            activity.replaceFragment(ClassName);
+            activity.replaceFragment("ListOfLightsFragment");
         } else{
             Toast.makeText(getActivity(), "Not Saved, there were some issues",
                     Toast.LENGTH_SHORT).show();

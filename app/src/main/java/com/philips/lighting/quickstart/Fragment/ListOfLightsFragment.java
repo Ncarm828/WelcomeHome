@@ -1,8 +1,9 @@
 package com.philips.lighting.quickstart.Fragment;
 
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,21 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHLight;
+import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
+import com.philips.lighting.quickstart.DataClass.dummy.MyListOfLightsRecyclerViewAdapter;
 import com.philips.lighting.quickstart.R;
-import com.philips.lighting.quickstart.DataClass.dummy.ListOfLightContent;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
+import java.util.List;
+
+
 public class ListOfLightsFragment extends Fragment {
 
 
     private int mColumnCount = 1;
 
-    private OnListFragmentInteractionListener mListener;
+
+    private MyApplicationActivity activity;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,6 +46,11 @@ public class ListOfLightsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listoflights_list, container, false);
 
+        activity = (MyApplicationActivity) getActivity();
+
+        PHBridge bridge = activity.GetMySDK().getSelectedBridge();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -53,41 +60,10 @@ public class ListOfLightsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-          //  recyclerView.setAdapter(new MyListOfLightsRecyclerViewAdapter(ListOfLightContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyListOfLightsRecyclerViewAdapter(allLights));
         }
         return view;
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-
-        void onListFragmentInteraction(ListOfLightContent item);
-    }
 }

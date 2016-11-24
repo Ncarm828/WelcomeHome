@@ -6,13 +6,10 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.FragmentManager; //keep for now
 import android.app.FragmentTransaction; //keep for now
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
 
 //Philips imports
 import com.philips.lighting.hue.listener.PHLightListener;
@@ -21,14 +18,13 @@ import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHBridgeResource;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
+import com.philips.lighting.model.PHLightState;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.DataClass.Database.DatabaseManager;
-import com.philips.lighting.quickstart.DataClass.Model.Hardware;
-import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
-import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
+import com.philips.lighting.quickstart.Fragment.ListOfLightsFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileAddFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileFragment;
 import com.philips.lighting.quickstart.R;
@@ -47,13 +43,19 @@ public class MyApplicationActivity extends Activity {
     private HardwareSettingRepo hardwareSettingRepo;
     private ProfileSettingRepo profileSettingRepo;
 
+    private static boolean PastLightStatus = false; //TEST
+
 
 
     //Fragment objects
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    //Fragments
     ProfileFragment MainDisplayFragment;
     ProfileAddFragment AddFragment;
+    ListOfLightsFragment LightListFragment;
+
 
 
 
@@ -72,17 +74,34 @@ public class MyApplicationActivity extends Activity {
         hardwareSettingRepo = new HardwareSettingRepo();
         profileSettingRepo = new ProfileSettingRepo();
 
-
-        phHueSDK = PHHueSDK.create(); //Connects to Philips SDK
+        //Connects to Philips SDK
+        phHueSDK = PHHueSDK.create();
 
         //Create one instance of this object
         AddFragment = new ProfileAddFragment();
         MainDisplayFragment = new ProfileFragment();
+        LightListFragment = new ListOfLightsFragment();
+
 
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.MainFragmentChange, MainDisplayFragment);
         fragmentTransaction.commit();
+
+
+
+        //used to turn light on and off
+        //current the layout has changed so the button does show
+        Button randomButton;
+        randomButton = (Button) findViewById(R.id.button);
+        randomButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                TurnLightsOn();
+            }
+
+        });
 
     }
     
@@ -116,10 +135,17 @@ public class MyApplicationActivity extends Activity {
         public void onError(int arg0, String arg1) {}
 
         @Override
-        public void onReceivingLightDetails(PHLight arg0) {}
+        public void onReceivingLightDetails(PHLight arg0) {
+
+        }
 
         @Override
-        public void onReceivingLights(List<PHBridgeResource> arg0) {}
+        public void onReceivingLights(List<PHBridgeResource> arg0) {
+            for(int i = 0; i < arg0.size(); i++){
+                System.out.println(arg0.get(i).getName());
+                //hardwareRepo.CheckIsDataAlreadyInDBorNot("");
+            }
+        }
 
         @Override
         public void onSearchComplete() {}
@@ -163,7 +189,41 @@ public class MyApplicationActivity extends Activity {
             fragmentTransaction.replace(R.id.MainFragmentChange, MainDisplayFragment);
         }else if(name == "ProfileFragment"){
             fragmentTransaction.replace(R.id.MainFragmentChange, AddFragment);
+        }else if(name == "ListOfLightsFragment"){
+            fragmentTransaction.replace(R.id.MainFragmentChange, LightListFragment).addToBackStack(null);
+
         }
         fragmentTransaction.commit();
+    }
+
+
+
+    //This is the function to turn lights on and off
+    //unused for now, will use later
+    public void TurnLightsOn() {
+
+
+        PHBridge bridge = GetMySDK().getSelectedBridge();
+
+        // List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        PHLightState lightState = new PHLightState();
+
+        PHLight light = bridge.getResourceCache().getLights().get("2");
+
+        if (PastLightStatus) {
+
+            lightState.setOn(false);
+            lightState.setTransitionTime(0);
+            PastLightStatus = false;
+        } else {
+            lightState.setOn(true);
+            lightState.setBrightness(100);
+            lightState.setTransitionTime(0);
+            PastLightStatus = true;
+        }
+
+        System.out.println("Toggling Light State: " + lightState.isOn());
+        bridge.updateLightState(light, lightState, GetMyListener());
+
     }
 }
