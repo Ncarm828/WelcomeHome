@@ -61,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="0bb07e419eb9ebb5650eab8fc52279f77ad2f145">
+        sha1="7ea643bcc84594a6b804d066caa170c8ccc5ada5">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_74070e183fdc603f9bbcf7c55af0cb79a5a753ef\classes.dex" />
     </item>
     <item
@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="7b03f0e8f9d1a9c98ff2958881b6e2365640bf7e">
+        sha1="d0b19c39589fc8388908d725d6f90af4202997a9">
         <dex dex="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_47280e1d38a125e7dc4e08ede5c035174aaffc73\classes.dex" />
     </item>
     <item

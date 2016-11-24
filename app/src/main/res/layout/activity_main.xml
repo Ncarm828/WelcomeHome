@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_start"
     android:layout_width="match_parent"
@@ -13,5 +14,10 @@
         android:layout_alignParentStart="true"
         android:id="@+id/MainFragmentChange">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/album1"
+            android:id="@+id/imageView1" />
     </FrameLayout>
 </RelativeLayout>

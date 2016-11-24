@@ -24,6 +24,10 @@ import com.philips.lighting.model.PHLightState; //Keep for now
 
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
+import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
+import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
+import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 
@@ -36,7 +40,8 @@ public class ProfileAddFragment extends Fragment {
     private static boolean PastLightStatus = false;
     private MyApplicationActivity activity;
 
-    private DBHelper mydb;
+   // private DBHelper mydb;
+    private ProfileSettingRepo profileSettingRepo;
 
     private static final int REQUEST_IMAGE_CAPTURE = 0;
 
@@ -68,7 +73,9 @@ public class ProfileAddFragment extends Fragment {
         CurrentPicture = (ImageView) view.findViewById(R.id.ProfilePicture);
 
         //Grabs the database object from the Activity
-        mydb = activity.GetMyDB();
+       // mydb = activity.GetMyDB();
+        profileSettingRepo = activity.getProfileSettingRepo();
+
 
         Button SaveButton;
         SaveButton = (Button) view.findViewById(R.id.SaveSettingsButton);
@@ -180,7 +187,13 @@ public class ProfileAddFragment extends Fragment {
 
     //Used for saving the new profile entry into the database
     public void SaveProfile(View view) {
-        if(mydb.insertProfile(name.getText().toString(),CurrentPicture,Default.isChecked())){
+        PersonalSettings personalSettings = new PersonalSettings();
+
+        personalSettings.setName(name.getText().toString());
+        personalSettings.setThumbnail(CurrentPicture);
+        personalSettings.setActive(Default.isChecked());
+
+        if(profileSettingRepo.insert(personalSettings) > 0){ //returns the ID of the item we just placed
             Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
             activity.replaceFragment(ClassName);
         } else{

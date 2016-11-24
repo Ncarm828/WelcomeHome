@@ -6,8 +6,13 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.FragmentManager; //keep for now
 import android.app.FragmentTransaction; //keep for now
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 
 //Philips imports
 import com.philips.lighting.hue.listener.PHLightListener;
@@ -17,6 +22,13 @@ import com.philips.lighting.model.PHBridgeResource;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
+import com.philips.lighting.quickstart.DataClass.Database.DatabaseManager;
+import com.philips.lighting.quickstart.DataClass.Model.Hardware;
+import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
+import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
+import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.Fragment.ProfileAddFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileFragment;
 import com.philips.lighting.quickstart.R;
@@ -28,7 +40,14 @@ public class MyApplicationActivity extends Activity {
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE=65535;
     private final String TAG = "PHSDKAPP";
-    private DBHelper mydb;
+
+   //private DBHelper mydb;REMOVE
+    private static DBHelper dbHelper;
+    private HardwareRepo hardwareRepo;
+    private HardwareSettingRepo hardwareSettingRepo;
+    private ProfileSettingRepo profileSettingRepo;
+
+
 
     //Fragment objects
     FragmentManager fragmentManager;
@@ -46,7 +65,13 @@ public class MyApplicationActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Database
-        mydb = new DBHelper(this);
+       // mydb = new DBHelper(this); //Save just in case
+        dbHelper = new DBHelper(this);
+        DatabaseManager.initializeInstance(dbHelper);
+        hardwareRepo = new HardwareRepo();
+        hardwareSettingRepo = new HardwareSettingRepo();
+        profileSettingRepo = new ProfileSettingRepo();
+
 
         phHueSDK = PHHueSDK.create(); //Connects to Philips SDK
 
@@ -111,9 +136,23 @@ public class MyApplicationActivity extends Activity {
         return listener;
     }
 
-    public DBHelper GetMyDB(){
+    //Keep in case database needs changing
+    /*public DBHelper GetMyDB(){
         return mydb;
+    }*/
+
+    public HardwareRepo getHardwareRepo() {
+        return hardwareRepo;
     }
+
+    public HardwareSettingRepo getHardwareSettingRepo() {
+        return hardwareSettingRepo;
+    }
+
+    public ProfileSettingRepo getProfileSettingRepo() {
+        return profileSettingRepo;
+    }
+
 
     public void replaceFragment(String name) {
 
@@ -126,7 +165,5 @@ public class MyApplicationActivity extends Activity {
             fragmentTransaction.replace(R.id.MainFragmentChange, AddFragment);
         }
         fragmentTransaction.commit();
-
-
     }
 }

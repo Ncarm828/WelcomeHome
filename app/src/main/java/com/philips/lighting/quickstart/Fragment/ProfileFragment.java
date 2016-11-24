@@ -22,6 +22,8 @@ import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
 import com.philips.lighting.quickstart.DataClass.dummy.PersonalSettingAdapter;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
+import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
@@ -39,7 +41,8 @@ public class ProfileFragment extends Fragment {
 
     private MyApplicationActivity activity;
 
-    private DBHelper mydb;
+    //private DBHelper mydb;
+    private HardwareSettingRepo hardwareSettingRepo;
 
 
     public ProfileFragment() {
@@ -57,12 +60,13 @@ public class ProfileFragment extends Fragment {
         activity = (MyApplicationActivity) getActivity();
 
         //Grabs the database object from the Activity
-        mydb = activity.GetMyDB();
+        //mydb = activity.GetMyDB();
+        hardwareSettingRepo = activity.getHardwareSettingRepo();
 
         //gets the view, adapter and recycle view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         ProfileList = new ArrayList<>();
-        adapter = new PersonalSettingAdapter(getActivity(),mydb);
+        adapter = new PersonalSettingAdapter(getActivity(),hardwareSettingRepo);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new ProfileFragment.GridSpacingItemDecoration(2, dpToPx(10), true));

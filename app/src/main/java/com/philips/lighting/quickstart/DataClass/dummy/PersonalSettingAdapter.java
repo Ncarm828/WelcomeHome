@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 import java.util.List;
@@ -24,9 +27,9 @@ import java.util.List;
 public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSettingAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<PersonalSettings> ProfileList;
-
-    private DBHelper mydb;
+    private List<ProfilesAndHardwareSettings> ProfileList;
+    private HardwareSettingRepo hardwareSettingRepo;
+   // private DBHelper mydb; //Leave for now
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
@@ -43,10 +46,10 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
 
 
 
-    public PersonalSettingAdapter(Context mContext,DBHelper mydb) {
+    public PersonalSettingAdapter(Context mContext,HardwareSettingRepo hardwareSettingRepo) {
         this.mContext = mContext;
-        this.mydb = mydb;
-        this.ProfileList = this.mydb.getAllProfile();
+        this.ProfileList = hardwareSettingRepo.getProfilesAndHardwareSettings();
+        this.hardwareSettingRepo = hardwareSettingRepo;
     }
 
 
@@ -59,15 +62,13 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        PersonalSettings page = ProfileList.get(position);
-        holder.title.setText(page.getName());
-        holder.count.setText("Default Page: " + page.getActive());
-        holder.thumbnail.setImageBitmap(BitmapFactory.decodeByteArray(page.getThumbnail(), 0, page.getThumbnail().length));
+        ProfilesAndHardwareSettings page = ProfileList.get(position);
+        holder.title.setText(page.getPersonalSettingsName());
+        holder.count.setText("Default Page: " + page.isPersonalSettingsActive());
+        holder.thumbnail.setImageBitmap(BitmapFactory.decodeByteArray(page.getPersonalSettingsThumbnail(), 0, page.getPersonalSettingsThumbnail().length));
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(page.getThumbnail()).asBitmap().into(holder.thumbnail);
-
-        System.out.println(mydb.numberOfRows() + "Nick jdhkjhfdjkhg");
+        Glide.with(mContext).load(page.getPersonalSettingsThumbnail()).asBitmap().into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,7 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
                     Toast.makeText(mContext, "Edit", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
-                    mydb.deleteProfile(ProfileList.get(position).getName());
+                    hardwareSettingRepo.DeleteProfile(ProfileList.get(position).getPersonalSettingsName());
                     ProfileList.remove(position);
                     notifyDataSetChanged();
                     Toast.makeText(mContext, "Deleted", Toast.LENGTH_SHORT).show();

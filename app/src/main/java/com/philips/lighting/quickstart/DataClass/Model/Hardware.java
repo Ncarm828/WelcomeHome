@@ -7,18 +7,18 @@ public class Hardware {
     public static final String TABLE = "Hardware";
 
     // Labels Table Columns names
-    public static final String KEY_HardwareId = "CourseId";
-    public static final String KEY_Name = "Name";
+    public static final String KEY_HardwareId = "HardwareId";
+    public static final String KEY_Name = "HardwareName";
 
-    private String HardwareId;
+    private int HardwareId;
     private String name;
 
 
-    public String getHardwareId() {
+    public int getHardwareId() {
         return HardwareId;
     }
 
-    public void setHardwareId(String HardwareId) {
+    public void setHardwareId(int HardwareId) {
         this.HardwareId = HardwareId;
     }
 
@@ -29,4 +29,5 @@ public class Hardware {
     public void setName(String name) {
         this.name = name;
     }
+
 }
