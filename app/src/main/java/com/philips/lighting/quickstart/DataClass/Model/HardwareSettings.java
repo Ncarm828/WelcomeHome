@@ -51,8 +51,11 @@ public class HardwareSettings {
         HardwareName = hardwareName;
     }
 
-    public int getLightOnOff() {
-        return LightOnOff;
+    public boolean getLightOnOff() {
+        if (LightOnOff == 1){
+            return true;
+        }
+        return false;
     }
 
     public void setLightOnOff(int lightOnOff) {

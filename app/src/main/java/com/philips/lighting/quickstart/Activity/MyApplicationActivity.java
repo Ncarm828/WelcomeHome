@@ -6,10 +6,9 @@ import java.util.Map;
 import android.app.Activity;
 import android.app.FragmentManager; //keep for now
 import android.app.FragmentTransaction; //keep for now
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 //Philips imports
 import com.philips.lighting.hue.listener.PHLightListener;
@@ -21,31 +20,29 @@ import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.DataClass.Database.DatabaseManager;
+import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
-import com.philips.lighting.quickstart.Fragment.ListOfLightsFragment;
+import com.philips.lighting.quickstart.Fragment.HardwareSettingListFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileAddFragment;
 import com.philips.lighting.quickstart.Fragment.ProfileFragment;
 import com.philips.lighting.quickstart.R;
 
 
-public class MyApplicationActivity extends Activity {
+public class MyApplicationActivity extends Activity{
 
     //Hue variables
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE=65535;
     private final String TAG = "PHSDKAPP";
+    private PHBridge bridge;
 
-   //private DBHelper mydb;REMOVE
+   //Database Objects
     private static DBHelper dbHelper;
     private HardwareRepo hardwareRepo;
     private HardwareSettingRepo hardwareSettingRepo;
     private ProfileSettingRepo profileSettingRepo;
-
-    private static boolean PastLightStatus = false; //TEST
-
-
 
     //Fragment objects
     FragmentManager fragmentManager;
@@ -54,8 +51,7 @@ public class MyApplicationActivity extends Activity {
     //Fragments
     ProfileFragment MainDisplayFragment;
     ProfileAddFragment AddFragment;
-    ListOfLightsFragment LightListFragment;
-
+    HardwareSettingListFragment LightListFragment;
 
 
 
@@ -67,44 +63,36 @@ public class MyApplicationActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //Database
-       // mydb = new DBHelper(this); //Save just in case
         dbHelper = new DBHelper(this);
         DatabaseManager.initializeInstance(dbHelper);
         hardwareRepo = new HardwareRepo();
         hardwareSettingRepo = new HardwareSettingRepo();
         profileSettingRepo = new ProfileSettingRepo();
 
+
+        //For testing
+        //hardwareRepo.delete();
+       // hardwareSettingRepo.delete();
+       // profileSettingRepo.delete();
+
         //Connects to Philips SDK
         phHueSDK = PHHueSDK.create();
+        bridge = phHueSDK.getSelectedBridge();
 
         //Create one instance of this object
         AddFragment = new ProfileAddFragment();
         MainDisplayFragment = new ProfileFragment();
-        LightListFragment = new ListOfLightsFragment();
+        LightListFragment = new HardwareSettingListFragment();
 
-
+        //Fragment Handler
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.MainFragmentChange, MainDisplayFragment);
         fragmentTransaction.commit();
 
-
-
-        //used to turn light on and off
-        //current the layout has changed so the button does show
-        Button randomButton;
-        randomButton = (Button) findViewById(R.id.button);
-        randomButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                TurnLightsOn();
-            }
-
-        });
-
     }
-    
+
+
     @Override
     protected void onDestroy() {
         PHBridge bridge = phHueSDK.getSelectedBridge();
@@ -118,6 +106,7 @@ public class MyApplicationActivity extends Activity {
             super.onDestroy();
         }
     }
+
 
     // Handle the response from the bridge, create a PHLightListener object.
     private PHLightListener listener = new PHLightListener() {
@@ -157,27 +146,126 @@ public class MyApplicationActivity extends Activity {
         return phHueSDK;
     }
 
+
     //Method so the fragments can use the Light Listen
     public PHLightListener GetMyListener(){
         return listener;
     }
 
-    //Keep in case database needs changing
-    /*public DBHelper GetMyDB(){
-        return mydb;
-    }*/
 
     public HardwareRepo getHardwareRepo() {
         return hardwareRepo;
     }
 
+
     public HardwareSettingRepo getHardwareSettingRepo() {
         return hardwareSettingRepo;
     }
 
+
     public ProfileSettingRepo getProfileSettingRepo() {
         return profileSettingRepo;
     }
+
+
+    public void PrintDataBase(){
+        //Check DB manager comments before calling this function
+        System.out.println(dbHelper.getTableAsString(DatabaseManager.getInstance().openDatabase(), ProfileSettings.TABLE));
+    }
+
+
+    //Function that will turn all lights off in the room your working with
+    public void StartNewSlate(){
+
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
+        for (PHLight light:allLights){
+            PHLightState lightState = new PHLightState();
+            lightState.setOn(false);
+            phHueSDK.getSelectedBridge().updateLightState(light, lightState, GetMyListener());
+        }
+
+    }
+
+
+    //Change the brightness of the lights
+    public void ChangeLightBrightness(int position,int BrightnessSetting){
+
+        PHLightState lightState = new PHLightState();
+        PHLight light = bridge.getResourceCache().getLights().get(String.valueOf(position+1));
+
+        //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
+        try{
+            if(light.getLastKnownLightState().isOn()){
+
+                //CLAMP is a defensive check because if the value is out of this range the program will crash :(
+                BrightnessSetting = CLAMP(BrightnessSetting,0,254);
+
+                lightState.setBrightness(BrightnessSetting);
+            }
+        }catch (NullPointerException e) {
+            Log.i(TAG,"The light has a NULL state on the Bridges cache");
+        }
+        bridge.updateLightState(light, lightState,listener);
+    }
+
+
+    //This is the function to turn lights on and off
+    public boolean TurnLightsOn(int position) {
+
+        boolean returnState = false;
+
+        PHLightState lightState = new PHLightState();
+        PHLight light = bridge.getResourceCache().getLights().get(String.valueOf(position+1));
+
+        //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
+        try{
+            lightState.setOn(!light.getLastKnownLightState().isOn());
+            returnState = light.getLastKnownLightState().isOn();
+        }catch (NullPointerException e) {
+            Log.i(TAG,"The light has a NULL state on the Bridges cache");
+        }
+        bridge.updateLightState(light, lightState, listener);
+
+        return returnState;
+    }
+
+    //This is the function to turn lights on and off
+    public boolean TurnLightsOn(String name) {
+
+        boolean returnState = false;
+
+        PHLightState lightState = new PHLightState();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
+        System.out.println("Testing the profile name: " + name + " == " + allLights.get(1).getName());
+        for (PHLight light : allLights) {
+
+            if(light.getName().equals(name)) {
+                //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
+                try {
+                    lightState.setOn(!light.getLastKnownLightState().isOn());
+                    returnState = light.getLastKnownLightState().isOn();
+                } catch (NullPointerException e) {
+                    Log.i(TAG, "The light has a NULL state on the Bridges cache");
+                }
+                bridge.updateLightState(light, lightState, listener);
+            }
+        }
+
+        return returnState;
+    }
+
+
+    private int CLAMP (int ValueChecked, int min , int max){
+        if( ValueChecked < min){
+            ValueChecked = min;
+        }else if(ValueChecked > max){
+            ValueChecked = max;
+        }
+        return ValueChecked;
+    }
+
 
 
     public void replaceFragment(String name) {
@@ -186,44 +274,23 @@ public class MyApplicationActivity extends Activity {
         fragmentTransaction = fragmentManager.beginTransaction();
 
         if (name == "ProfileAddFragment") {
-            fragmentTransaction.replace(R.id.MainFragmentChange, MainDisplayFragment);
+            fragmentTransaction.replace(R.id.MainFragmentChange, MainDisplayFragment).addToBackStack(null);
         }else if(name == "ProfileFragment"){
-            fragmentTransaction.replace(R.id.MainFragmentChange, AddFragment);
-        }else if(name == "ListOfLightsFragment"){
-            fragmentTransaction.replace(R.id.MainFragmentChange, LightListFragment).addToBackStack(null);
-
+            fragmentTransaction.replace(R.id.MainFragmentChange, AddFragment).addToBackStack(null);
+        }else if(name == "HardwareSettingListFragment"){
+            fragmentTransaction.replace(R.id.MainFragmentChange,LightListFragment ).addToBackStack(null);
         }
         fragmentTransaction.commit();
     }
 
 
-
-    //This is the function to turn lights on and off
-    //unused for now, will use later
-    public void TurnLightsOn() {
-
-
-        PHBridge bridge = GetMySDK().getSelectedBridge();
-
-        // List<PHLight> allLights = bridge.getResourceCache().getAllLights();
-        PHLightState lightState = new PHLightState();
-
-        PHLight light = bridge.getResourceCache().getLights().get("2");
-
-        if (PastLightStatus) {
-
-            lightState.setOn(false);
-            lightState.setTransitionTime(0);
-            PastLightStatus = false;
-        } else {
-            lightState.setOn(true);
-            lightState.setBrightness(100);
-            lightState.setTransitionTime(0);
-            PastLightStatus = true;
-        }
-
-        System.out.println("Toggling Light State: " + lightState.isOn());
-        bridge.updateLightState(light, lightState, GetMyListener());
-
+    /******************************************************************
+     * Starts up the LoginActivity - called on user sign out
+     *****************************************************************/
+    public void runWelcomeActivity() {
+        Intent intent = new Intent(MyApplicationActivity.this, StartActivity.class);
+        startActivity(intent);
+        finish();
     }
+
 }

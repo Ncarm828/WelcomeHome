@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,15 +19,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.philips.lighting.hue.sdk.PHHueSDK;
+import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHLight;
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
-import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.Model.Hardware;
+import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
+import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
 import com.philips.lighting.quickstart.DataClass.dummy.PersonalSettingAdapter;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,13 +43,16 @@ public class ProfileFragment extends Fragment {
     //Card variables
     private RecyclerView recyclerView;
     private PersonalSettingAdapter adapter;
-    private ArrayList<PersonalSettings> ProfileList;
+    private ArrayList<ProfileSettings> ProfileList;
     public String ClassName = "ProfileFragment";
 
     private MyApplicationActivity activity;
 
-    //private DBHelper mydb;
     private HardwareSettingRepo hardwareSettingRepo;
+    private HardwareRepo hardwareRepo;
+    private ProfileSettingRepo profileSettingRepo;
+
+    private PHHueSDK phHueSDK;
 
 
     public ProfileFragment() {
@@ -59,14 +69,26 @@ public class ProfileFragment extends Fragment {
         //Get the MainActivity
         activity = (MyApplicationActivity) getActivity();
 
+        //Get SDK from MainActivity
+        phHueSDK = activity.GetMySDK();
+
         //Grabs the database object from the Activity
-        //mydb = activity.GetMyDB();
         hardwareSettingRepo = activity.getHardwareSettingRepo();
+        hardwareRepo = activity.getHardwareRepo();
+        profileSettingRepo = activity.getProfileSettingRepo();
+
+        //Thread to the database. Used for checking for new hardware
+        HardwareList();
 
         //gets the view, adapter and recycle view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         ProfileList = new ArrayList<>();
-        adapter = new PersonalSettingAdapter(getActivity(),hardwareSettingRepo);
+        adapter = new PersonalSettingAdapter(activity,hardwareSettingRepo, profileSettingRepo, new PersonalSettingAdapter.BTNListener() {
+            @Override
+            public void LightBtn(View v, int position) {
+                UpdateLight(v,position);
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new ProfileFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -184,6 +206,65 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void HardwareList(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PHBridge bridge = phHueSDK.getSelectedBridge();
+                List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
+                //Create new hardware rows
+                for (PHLight light : allLights) {
+                    Hardware temp = new Hardware();
+                    if (!hardwareRepo.CheckIsDataAlreadyInDBorNot(light.getName())){
+                        temp.setName(light.getName());
+                        hardwareRepo.insert(temp);
+                    }
+                }
+            }
+        }).start();
+    }
+
+    public PHHueSDK GetMySDK() {
+        return phHueSDK;
+    }
+
+    //Handles Database calls and sets lights to their corresponding settings
+    private void UpdateLight(final View v, final int position){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Create object for Databases
+                ProfileSettingRepo PSR = new ProfileSettingRepo();
+                HardwareSettingRepo HSR = new HardwareSettingRepo();
+                ProfilesAndHardwareSettings PHS;
+
+
+                //Get the profile that was clicked
+                ProfileSettings PS = PSR.getProfile(position);
+                String ProfileName = PS.getName();
+
+                //Get all light settings
+                List<ProfilesAndHardwareSettings> AllAttributes  = HSR.getProfilesAndHardwareSettings();
+
+                for(int i = 0; i < AllAttributes.size(); i++){
+
+                    //Gets each row in the database
+                    PHS = AllAttributes.get(i);
+
+                    //Checks to see if the clicked profile name matches any row. Note: unknown amount because it depends in what hardware is connected
+                    if(PHS.getPersonalSettingsName().equals(ProfileName)){
+                        System.out.println(PHS.getHardwareName() + " Nick here");
+                        activity.TurnLightsOn(PHS.getHardwareName());
+
+                    }
+                }
+
+
+            }
+        }).start();
     }
 
 }

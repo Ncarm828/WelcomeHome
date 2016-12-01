@@ -9,16 +9,28 @@
         android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <receiver android:name="produvia.com.weaverandroidsdk.NetworkReceiver" >
+        <intent-filter>
+            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+        </intent-filter>
+    </receiver>
 
     <application
         android:name="com.android.tools.fd.runtime.BootstrapApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
             android:name="com.philips.lighting.quickstart.Activity.PHHomeActivity"
@@ -41,6 +53,7 @@
         <activity
             android:name="com.philips.lighting.quickstart.Activity.StartActivity"
             android:label="@string/title_activity_start" />
+        <activity android:name="com.philips.lighting.quickstart.Activity.RegisterActivity" />
     </application>
 
 </manifest>

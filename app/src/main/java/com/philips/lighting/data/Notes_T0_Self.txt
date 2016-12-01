@@ -1,0 +1,28 @@
+This is a file created for the sole purpose of updating the project at a later time
+
+Known Issues:
+1. There is a an issue when toggling the lights. Currently I set the light to false which turns off all light.
+this is not ideal because the user will left in the dark. This was a crude walk around to get things working but a
+fix will be needed later on
+
+2. If a user adds another profile with the same name, major problems will occur. Fix this ASAP
+
+
+
+Next release ideas:
+1. Get color lights
+2. Be able to get pictures off the web and used for the profiles
+
+
+
+Notes:
+
+1.Fix Delete
+2. Add edit options
+3. Fix it looks horrible
+4. clean code up
+5. Comment everything that makes not sense
+6. Get rid of unused xml files and other usless java files
+7. make new diagrams for the updates
+8. Start using threads for database
+9. Create light class that thread safe so you can thread the lights

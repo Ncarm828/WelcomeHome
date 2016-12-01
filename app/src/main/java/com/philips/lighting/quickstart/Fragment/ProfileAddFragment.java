@@ -18,16 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHLight;
-import com.philips.lighting.model.PHLightState; //Keep for now
 
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
+import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
+import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
-
+import java.util.List;
 
 
 public class ProfileAddFragment extends Fragment {
@@ -35,8 +37,11 @@ public class ProfileAddFragment extends Fragment {
 
     private MyApplicationActivity activity;
 
-   // private DBHelper mydb;
+    //Database for the profile
     private ProfileSettingRepo profileSettingRepo;
+
+    //Database for the HardwareSetting
+    private HardwareSettingRepo settings;
 
     private static final int REQUEST_IMAGE_CAPTURE = 0;
 
@@ -45,6 +50,9 @@ public class ProfileAddFragment extends Fragment {
     private TextView Picture;
     private ToggleButton Default;
     private ImageView CurrentPicture;
+
+    //SDK for the lights
+    private PHHueSDK phHueSDK;
 
     public String ClassName = "ProfileAddFragment";
 
@@ -59,8 +67,13 @@ public class ProfileAddFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_profile_add, container, false);
 
+        //Get the MainActivity
         activity = (MyApplicationActivity) getActivity();
 
+        //Get SDK from MainActivity
+        phHueSDK = activity.GetMySDK();
+
+        //Grabs the views off the XML file
         name = (TextView) view.findViewById(R.id.editTextName);
         warningMessage = (TextView) view.findViewById(R.id.textViewInformation);
         Picture = (TextView) view.findViewById(R.id.CameraPictureSetting);
@@ -68,10 +81,10 @@ public class ProfileAddFragment extends Fragment {
         CurrentPicture = (ImageView) view.findViewById(R.id.ProfilePicture);
 
         //Grabs the database object from the Activity
-       // mydb = activity.GetMyDB();
         profileSettingRepo = activity.getProfileSettingRepo();
+        settings = activity.getHardwareSettingRepo();
 
-
+        //Create and handles the create button for the profile
         Button CreateProfileButton;
         CreateProfileButton = (Button) view.findViewById(R.id.SaveSettingsButton);
         CreateProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +104,7 @@ public class ProfileAddFragment extends Fragment {
             }
         });
 
+        //Button is unused at this point. need for getting an image off line
         Button SearchImage;
         SearchImage = (Button) view.findViewById(R.id.CameraPictureSetting);
         SearchImage.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +116,7 @@ public class ProfileAddFragment extends Fragment {
 
         });
 
+        //creates and handles the cancel button if the user no longer wants to create a profile
         Button CancelButton;
         CancelButton = (Button)view.findViewById(R.id.CancelButton);
         CancelButton.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +148,15 @@ public class ProfileAddFragment extends Fragment {
 
     //Used for saving the new profile entry into the database
     public void SaveProfile(View view) {
-        PersonalSettings personalSettings = new PersonalSettings();
+        ProfileSettings profileSettings = new ProfileSettings();
 
-        personalSettings.setName(name.getText().toString());
-        personalSettings.setThumbnail(CurrentPicture);
-        personalSettings.setActive(Default.isChecked());
+        profileSettings.setName(name.getText().toString());
+        profileSettings.setThumbnail(CurrentPicture);
+        profileSettings.setActive(Default.isChecked());
 
-        if(profileSettingRepo.insert(personalSettings) > 0){ //returns the ID of the item we just placed
-            Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
-            activity.replaceFragment("ListOfLightsFragment");
+        if(profileSettingRepo.insert(profileSettings) > 0){ //returns the ID of the item we just placed
+            HandleLights(profileSettings.getName());
+            activity.replaceFragment("HardwareSettingListFragment");
         } else{
             Toast.makeText(getActivity(), "Not Saved, there were some issues",
                     Toast.LENGTH_SHORT).show();
@@ -166,4 +181,29 @@ public class ProfileAddFragment extends Fragment {
             CurrentPicture.setImageBitmap(imageBitmap);
         }
     }
+
+   private void  HandleLights(String name){
+       //Get Lights
+       PHBridge bridge = phHueSDK.getSelectedBridge();
+       List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
+       //Notify user that the profile has been saved
+       Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+
+       //Create new hardware rows
+       for (PHLight light : allLights) {
+
+           //takes values from the light and places them into database
+           HardwareSettings temp = new HardwareSettings();
+           temp.setName(light.getName());
+           temp.setLightOnOff(0);
+           temp.setBrightness(0);
+           temp.setProfileName(name);
+           temp.setHardwareName(light.getName());
+
+           //Insert the settings in database
+           settings.insert(temp);
+       }
+
+   }
 }

@@ -34,6 +34,8 @@
     <string name="ProfilePicture">Picture</string>
     <string name="Default">Default</string>
     <string name="Search">Search</string>
+    <string name="HardwareOptions">Hardware Options</string>
+    <string name="LExplained">Below are the list of hardware options you can change</string>
 
     <!-- Need to change these, just place holder to get things working -->
     <string name="Edit">Edit</string>
@@ -43,5 +45,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="API_KEY">e6018cfefb344571272444396f56b71dae65ffcb5a3d9428474da81c52e9e6bb6d7b91fed1bda69cfa5287c29ece2919d3e8</string>
+    <string name="title_iothub_list">Light List</string>
+    <string name="title_iothub_detail">Light Controller</string>
+    <string name="prompt_user_pass">Enter the username and password of the target device</string>
+    <string name="user_name">Choose a Username</string>
+    <string name="user_password">Password</string>
+
 
 </resources>

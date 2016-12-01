@@ -68,11 +68,15 @@ public class ProfilesAndHardwareSettings {
         HardwareSettingsPName = hardwareSettingsPName;
     }
 
-    public int getHardwareSettingsONOFF() {
-        return HardwareSettingsONOFF;
+    public boolean getHardwareSettingsONOFF() {
+        if (HardwareSettingsONOFF == 1){
+            return true;
+        }
+        return false;
     }
 
     public void setHardwareSettingsONOFF(int hardwareSettingsONOFF) {
+        CLAMP(hardwareSettingsONOFF,0,1);
         HardwareSettingsONOFF = hardwareSettingsONOFF;
     }
 
@@ -81,6 +85,7 @@ public class ProfilesAndHardwareSettings {
     }
 
     public void setHardwareSettingBrightness(int hardwareSettingBrightness) {
+        CLAMP(hardwareSettingBrightness,0,100);
         HardwareSettingBrightness = hardwareSettingBrightness;
     }
 
@@ -109,6 +114,15 @@ public class ProfilesAndHardwareSettings {
 
     public void setPersonalSettingsThumbnail(byte[] personalSettingsThumbnail) {
         PersonalSettingsThumbnail = personalSettingsThumbnail;
+    }
+
+    //CLAMP method was created as a defensive check because some values cannot exceed their range else the program will explode, seriously
+    private int CLAMP(int ValueBeingCheck, int min, int max){
+        if (ValueBeingCheck > max)
+            ValueBeingCheck = max;
+        else if (ValueBeingCheck < min)
+            ValueBeingCheck = min;
+        return ValueBeingCheck;
     }
 
 }

@@ -43,6 +43,20 @@ public class HardwareRepo {
         return courseId;
     }
 
+    public boolean Update (Hardware setting, int id) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+
+        //Putting new values in
+        values.put(Hardware.KEY_Name, hardware.getName());
+
+        // Updating Row
+        db.update(Hardware.TABLE, values, "id = ? ", new String[] { Integer.toString(id) });
+        DatabaseManager.getInstance().closeDatabase();
+
+        return true;
+    }
+
 
 
     public void delete( ) {
@@ -54,7 +68,7 @@ public class HardwareRepo {
 
     public static boolean CheckIsDataAlreadyInDBorNot(String fieldValue) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        String Query = "Select * from " + Hardware.TABLE + " where " + Hardware.KEY_Name + " = " + fieldValue;
+        String Query = "SELECT * FROM " + Hardware.TABLE + " WHERE " + Hardware.KEY_Name + " = " + "'" + fieldValue + "'";
         Cursor cursor = db.rawQuery(Query, null);
         if(cursor.getCount() <= 0){
             cursor.close();

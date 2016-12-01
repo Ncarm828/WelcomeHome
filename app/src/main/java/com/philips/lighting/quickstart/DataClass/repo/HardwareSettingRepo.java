@@ -8,7 +8,7 @@ import android.util.Log;
 import com.philips.lighting.quickstart.DataClass.Database.DatabaseManager;
 import com.philips.lighting.quickstart.DataClass.Model.Hardware;
 import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
-import com.philips.lighting.quickstart.DataClass.Model.PersonalSettings;
+import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
 
 import java.util.ArrayList;
@@ -21,13 +21,9 @@ import java.util.List;
 public class HardwareSettingRepo {
     private final String TAG = HardwareSettingRepo.class.getSimpleName().toString();
 
-    public HardwareSettingRepo() {
-
-    }
+    public HardwareSettingRepo() {}
 
     private HardwareSettings settings;
-
-
 
     public static String createTable(){
         return "CREATE TABLE " + HardwareSettings.TABLE  + "("
@@ -37,14 +33,18 @@ public class HardwareSettingRepo {
                 + HardwareSettings.KEY_PName + " TEXT, "
                 + HardwareSettings.KEY_Brightness + " INTEGER, "
                 + HardwareSettings.KEY_ON_OFF + " INTEGER )";
-
     }
 
-    public void insert(HardwareSettings settings) {
+    public int insert(HardwareSettings settings) {
 
+        //For debugging
+        int Id;
+
+        //Synchronized access to read and write to database
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
-      //  values.put(HardwareSettings.KEY_HardwareSettingId, settings.getHardwareSettingsId());
+
+        //Puts values into database
         values.put(HardwareSettings.KEY_Name, settings.getName());
         values.put(HardwareSettings.KEY_HardwareName, settings.getHardwareName());
         values.put(HardwareSettings.KEY_ON_OFF, settings.getLightOnOff());
@@ -52,9 +52,29 @@ public class HardwareSettingRepo {
         values.put(HardwareSettings.KEY_PName, settings.getProfileName());
 
         // Inserting Row
-        db.insert(HardwareSettings.TABLE, null, values);
+        Id=(int)db.insert(HardwareSettings.TABLE, null, values);
         DatabaseManager.getInstance().closeDatabase();
 
+        return Id;
+    }
+
+    public boolean Update(HardwareSettings setting, int id) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+
+        //Putting new values in
+        values.put(HardwareSettings.KEY_Name, setting.getName());
+
+        values.put(HardwareSettings.KEY_HardwareName, setting.getHardwareName());
+        values.put(HardwareSettings.KEY_ON_OFF, setting.getLightOnOff());
+        values.put(HardwareSettings.KEY_Brightness, setting.getBrightness());
+        values.put(HardwareSettings.KEY_PName, setting.getProfileName());
+
+        // Updating Row
+        db.update(HardwareSettings.TABLE, values, HardwareSettings.KEY_HardwareSettingId + " = ? ", new String[] { Integer.toString(id) });
+        DatabaseManager.getInstance().closeDatabase();
+
+        return true;
     }
 
 
@@ -77,13 +97,13 @@ public class HardwareSettingRepo {
                 + ", HardwareSettings." + HardwareSettings.KEY_PName
                 + ", HardwareSettings." + HardwareSettings.KEY_ON_OFF
                 + ", HardwareSettings." + HardwareSettings.KEY_Brightness
-                + ", PersonalSettings." + PersonalSettings.KEY_PersonalSettingsId
-                + ", PersonalSettings." + PersonalSettings.KEY_Active
-                + ", PersonalSettings." + PersonalSettings.KEY_Thumbnail
-                + ", PersonalSettings." + PersonalSettings.KEY_Name
-                + " FROM " + HardwareSettings.TABLE
+                + ", ProfileSettings." + ProfileSettings.KEY_ProfileSettingsId
+                + ", ProfileSettings." + ProfileSettings.KEY_Active
+                + ", ProfileSettings." + ProfileSettings.KEY_Thumbnail
+                + ", ProfileSettings." + ProfileSettings.KEY_Name
+                + " FROM " + HardwareSettings.TABLE + " HardwareSettings "
                 + " INNER JOIN " + Hardware.TABLE + " Hardware ON Hardware." + Hardware.KEY_Name + " = HardwareSettings." + HardwareSettings.KEY_HardwareName
-                + " INNER JOIN " + PersonalSettings.TABLE + " PersonalSettings ON PersonalSettings." + PersonalSettings.KEY_Name + " = HardwareSettings." + HardwareSettings.KEY_PName;
+                + " INNER JOIN " + ProfileSettings.TABLE + " ProfileSettings ON ProfileSettings." + ProfileSettings.KEY_Name + " = HardwareSettings." + HardwareSettings.KEY_PName;
 
         Log.d(TAG, selectQuery);
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -98,10 +118,11 @@ public class HardwareSettingRepo {
                 profileSettingList.setHardwareSettingsPName(cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_PName)));
                 profileSettingList.setHardwareSettingsONOFF(Integer.parseInt(cursor.getString(cursor.getColumnIndex( HardwareSettings.KEY_ON_OFF))));
                 profileSettingList.setHardwareSettingBrightness(Integer.parseInt(cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_Brightness))));
-                profileSettingList.setPersonalSettingsID(cursor.getString(cursor.getColumnIndex(PersonalSettings.KEY_PersonalSettingsId)));
-                profileSettingList.setPersonalSettingsActive(Boolean.parseBoolean(String.valueOf(cursor.getString(cursor.getColumnIndex(PersonalSettings.KEY_Active)))));
-                profileSettingList.setPersonalSettingsThumbnail(cursor.getBlob(cursor.getColumnIndex(PersonalSettings.KEY_Thumbnail)));
-                profileSettingList.setPersonalSettingsName(cursor.getString(cursor.getColumnIndex(PersonalSettings.KEY_Name)));
+                profileSettingList.setPersonalSettingsID(cursor.getString(cursor.getColumnIndex(ProfileSettings.KEY_ProfileSettingsId)));
+                profileSettingList.setPersonalSettingsActive(Boolean.parseBoolean(String.valueOf(cursor.getString(cursor.getColumnIndex(ProfileSettings.KEY_Active)))));
+                profileSettingList.setPersonalSettingsThumbnail(cursor.getBlob(cursor.getColumnIndex(ProfileSettings.KEY_Thumbnail)));
+
+                profileSettingList.setPersonalSettingsName(cursor.getString(cursor.getColumnIndex(ProfileSettings.KEY_Name)));
 
                 ProfileSettingsLists.add(profileSettingList);
             } while (cursor.moveToNext());
@@ -109,16 +130,6 @@ public class HardwareSettingRepo {
 
         cursor.close();
         DatabaseManager.getInstance().closeDatabase();
-
-        /*TESTING REASONS*/
-        for(int i = 0; i > ProfileSettingsLists.size();i++){
-            profileSettingList = new ProfilesAndHardwareSettings();
-            System.out.println(profileSettingList.isPersonalSettingsActive());
-            System.out.println(profileSettingList.getPersonalSettingsID());
-            System.out.println(profileSettingList.getPersonalSettingsThumbnail());
-            System.out.println(profileSettingList.getPersonalSettingsName());
-
-        }
 
         return ProfileSettingsLists;
 
@@ -128,7 +139,7 @@ public class HardwareSettingRepo {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
 
         String selectQuery1 =
-                " DELETE FROM PersonalSettings WHERE " + PersonalSettings.KEY_Name + " IN (SELECT " + PersonalSettings.KEY_Name + " FROM HardwareSettings WHERE "+HardwareSettings.KEY_PName +" = " + name +"); ";
+                " DELETE FROM ProfileSettings WHERE " + ProfileSettings.KEY_Name + " IN (SELECT " + ProfileSettings.KEY_Name + " FROM HardwareSettings WHERE "+HardwareSettings.KEY_PName +" = " + name +"); ";
         String selectQuery2 =
                 " DELETE FROM HardwareSettings WHERE "+HardwareSettings.KEY_PName + " = " + name +";";
 

@@ -1,14 +1,7 @@
 package com.philips.lighting.quickstart.DataClass.Model;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.widget.ImageView;
-
-import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
-import com.philips.lighting.quickstart.R;
 
 import java.io.ByteArrayOutputStream;
 
@@ -18,26 +11,26 @@ import java.io.ByteArrayOutputStream;
  * for the user so he or she knows which profile is which
  */
 
-public class PersonalSettings {
+public class ProfileSettings {
 
-    public static final String TAG = PersonalSettings.class.getSimpleName();
-    public static final String TABLE = "PersonalSettings";
+    public static final String TAG = ProfileSettings.class.getSimpleName();
+    public static final String TABLE = "ProfileSettings";
 
-    public static final String KEY_PersonalSettingsId = "PersonalSettingsId";
+    public static final String KEY_ProfileSettingsId = "ProfileSettingsId";
     public static final String KEY_Name = "PersonalSettingsName";
     public static final String KEY_Thumbnail = "Thumbnail";
     public static final String KEY_Active = "Active";
 
 
 
-    private int PersonalSettingsId;
+    private int ProfileSettingsId;
     private String Name;
     private byte[] Thumbnail;
     private int Active;
 
-    public PersonalSettings(){}
+    public ProfileSettings(){}
 
-    public PersonalSettings(String name, boolean active, byte[] thumbnail) {
+    public ProfileSettings(String name, boolean active, byte[] thumbnail) {
         this.Name = name;
         this.Active = active ? 1 : 0;
         this.Thumbnail = thumbnail;
@@ -67,12 +60,16 @@ public class PersonalSettings {
         this.Thumbnail = BitmapToByteArrayConverter(thumbnail);
     }
 
-    public int getPersonalSettingsId() {
-        return PersonalSettingsId;
+    public void setThumbnail(byte[] thumbnail) {
+        this.Thumbnail = thumbnail;
     }
 
-    public void setPersonalSettingsId(int personalSettingsId) {
-        PersonalSettingsId = personalSettingsId;
+    public int getProfileSettingsId() {
+        return ProfileSettingsId;
+    }
+
+    public void setProfileSettingsId(int profileSettingsId) {
+        ProfileSettingsId = profileSettingsId;
     }
 
     //Helper function that takes in an image view and changes it to a char array
