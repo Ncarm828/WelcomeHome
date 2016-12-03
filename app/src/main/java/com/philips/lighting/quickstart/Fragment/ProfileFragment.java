@@ -239,8 +239,8 @@ public class ProfileFragment extends Fragment {
                 //Create object for Databases
                 ProfileSettingRepo PSR = new ProfileSettingRepo();
                 HardwareSettingRepo HSR = new HardwareSettingRepo();
+                HardwareRepo HR = new HardwareRepo();
                 ProfilesAndHardwareSettings PHS;
-
 
                 //Get the profile that was clicked
                 ProfileSettings PS = PSR.getProfile(position);
@@ -253,16 +253,12 @@ public class ProfileFragment extends Fragment {
 
                     //Gets each row in the database
                     PHS = AllAttributes.get(i);
-
+                    System.out.println("Profile Name: " + PHS.getPersonalSettingsName() + " Hardware Name: " + PHS.getHardwareName() + " Setting: " + PHS.getHardwareSettingsONOFF());
                     //Checks to see if the clicked profile name matches any row. Note: unknown amount because it depends in what hardware is connected
                     if(PHS.getPersonalSettingsName().equals(ProfileName)){
-                        System.out.println(PHS.getHardwareName() + " Nick here");
-                        activity.TurnLightsOn(PHS.getHardwareName());
-
+                        activity.TurnLightsOn(PHS.getHardwareName(), PHS.getHardwareSettingsONOFF());
                     }
                 }
-
-
             }
         }).start();
     }

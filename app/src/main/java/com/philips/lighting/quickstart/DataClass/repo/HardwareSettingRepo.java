@@ -58,21 +58,32 @@ public class HardwareSettingRepo {
         return Id;
     }
 
-    public boolean Update(HardwareSettings setting, int id) {
+    public boolean Update(HardwareSettings setting) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
 
         //Putting new values in
         values.put(HardwareSettings.KEY_Name, setting.getName());
-
         values.put(HardwareSettings.KEY_HardwareName, setting.getHardwareName());
         values.put(HardwareSettings.KEY_ON_OFF, setting.getLightOnOff());
         values.put(HardwareSettings.KEY_Brightness, setting.getBrightness());
         values.put(HardwareSettings.KEY_PName, setting.getProfileName());
 
+        String[] whereClauseArgument = new String[2];
+        whereClauseArgument[0] = setting.getHardwareName();
+        whereClauseArgument[1] = setting.getProfileName();
+
+        System.out.println(whereClauseArgument[0]);
+        System.out.println(whereClauseArgument[1]);
+        System.out.println(setting.getLightOnOff());
+
         // Updating Row
-        db.update(HardwareSettings.TABLE, values, HardwareSettings.KEY_HardwareSettingId + " = ? ", new String[] { Integer.toString(id) });
+        db.update(HardwareSettings.TABLE, values, HardwareSettings.KEY_HardwareName +
+                " = ?" + " AND " + HardwareSettings.KEY_PName + " = ?", whereClauseArgument);
+
         DatabaseManager.getInstance().closeDatabase();
+
+       // PrintDB();
 
         return true;
     }
@@ -91,9 +102,9 @@ public class HardwareSettingRepo {
         List<ProfilesAndHardwareSettings> ProfileSettingsLists = new ArrayList<>();
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         String selectQuery = " SELECT Hardware." + Hardware.KEY_HardwareId
-                + ", Hardware." + Hardware.KEY_Name  + " As HardwareName"
+                + ", Hardware." + Hardware.KEY_Name
                 + ", HardwareSettings." + HardwareSettings.KEY_HardwareSettingId
-                + ", HardwareSettings." + HardwareSettings.KEY_Name  + " As HardwareSettingName"
+                + ", HardwareSettings." + HardwareSettings.KEY_Name
                 + ", HardwareSettings." + HardwareSettings.KEY_PName
                 + ", HardwareSettings." + HardwareSettings.KEY_ON_OFF
                 + ", HardwareSettings." + HardwareSettings.KEY_Brightness
@@ -112,9 +123,9 @@ public class HardwareSettingRepo {
             do {
                 profileSettingList = new ProfilesAndHardwareSettings();
                 profileSettingList.setHardwareID(cursor.getString(cursor.getColumnIndex(Hardware.KEY_HardwareId)));
-                profileSettingList.setHardwareName(cursor.getString(cursor.getColumnIndex("HardwareName")));
+                profileSettingList.setHardwareName(cursor.getString(cursor.getColumnIndex(Hardware.KEY_Name)));
                 profileSettingList.setHardwareSettingsID(cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_HardwareSettingId)));
-                profileSettingList.setHardwareName(cursor.getString(cursor.getColumnIndex("HardwareSettingName")));
+                profileSettingList.setHardwareSettingsName(cursor.getString(cursor.getColumnIndex( HardwareSettings.KEY_Name)));
                 profileSettingList.setHardwareSettingsPName(cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_PName)));
                 profileSettingList.setHardwareSettingsONOFF(Integer.parseInt(cursor.getString(cursor.getColumnIndex( HardwareSettings.KEY_ON_OFF))));
                 profileSettingList.setHardwareSettingBrightness(Integer.parseInt(cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_Brightness))));
@@ -160,6 +171,24 @@ public class HardwareSettingRepo {
 
         DatabaseManager.getInstance().closeDatabase();
 
+    }
+
+    //Testing. prints table
+    public void PrintDB (){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + HardwareSettings.TABLE, null);
+        System.out.println("=======================================================================================================================");
+        if (cursor.moveToFirst()) {
+            do {
+
+                System.out.println("Hardware light  Name        " + "Hardware Profile Name     " + "Hardware ON/OFF       " + "Hardware Brightness    "  );
+                System.out.println(cursor.getString(cursor.getColumnIndex("HardwareName")) +
+                        "              " + cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_PName)) +
+                        "                       " +cursor.getString(cursor.getColumnIndex( HardwareSettings.KEY_ON_OFF)) +
+                        "                        " + cursor.getString(cursor.getColumnIndex(HardwareSettings.KEY_Brightness)));
+
+            } while (cursor.moveToNext());
+        }
     }
 
 }

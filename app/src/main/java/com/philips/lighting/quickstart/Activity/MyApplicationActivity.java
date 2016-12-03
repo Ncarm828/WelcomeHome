@@ -71,9 +71,9 @@ public class MyApplicationActivity extends Activity{
 
 
         //For testing
-        //hardwareRepo.delete();
-       // hardwareSettingRepo.delete();
-       // profileSettingRepo.delete();
+        hardwareRepo.delete();
+        hardwareSettingRepo.delete();
+        profileSettingRepo.delete();
 
         //Connects to Philips SDK
         phHueSDK = PHHueSDK.create();
@@ -189,7 +189,7 @@ public class MyApplicationActivity extends Activity{
 
 
     //Change the brightness of the lights
-    public void ChangeLightBrightness(int position,int BrightnessSetting){
+    public synchronized void ChangeLightBrightness(int position,int BrightnessSetting){
 
         PHLightState lightState = new PHLightState();
         PHLight light = bridge.getResourceCache().getLights().get(String.valueOf(position+1));
@@ -211,7 +211,7 @@ public class MyApplicationActivity extends Activity{
 
 
     //This is the function to turn lights on and off
-    public boolean TurnLightsOn(int position) {
+    public synchronized boolean ToggleLights (int position) {
 
         boolean returnState = false;
 
@@ -221,7 +221,7 @@ public class MyApplicationActivity extends Activity{
         //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
         try{
             lightState.setOn(!light.getLastKnownLightState().isOn());
-            returnState = light.getLastKnownLightState().isOn();
+            returnState = lightState.isOn();
         }catch (NullPointerException e) {
             Log.i(TAG,"The light has a NULL state on the Bridges cache");
         }
@@ -231,21 +231,20 @@ public class MyApplicationActivity extends Activity{
     }
 
     //This is the function to turn lights on and off
-    public boolean TurnLightsOn(String name) {
+    public synchronized boolean TurnLightsOn(String name, boolean CurrentState) {
 
         boolean returnState = false;
 
         PHLightState lightState = new PHLightState();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
 
-        System.out.println("Testing the profile name: " + name + " == " + allLights.get(1).getName());
         for (PHLight light : allLights) {
 
             if(light.getName().equals(name)) {
                 //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
                 try {
-                    lightState.setOn(!light.getLastKnownLightState().isOn());
-                    returnState = light.getLastKnownLightState().isOn();
+                    lightState.setOn(CurrentState);
+                    returnState = lightState.isOn();
                 } catch (NullPointerException e) {
                     Log.i(TAG, "The light has a NULL state on the Bridges cache");
                 }

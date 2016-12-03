@@ -33,6 +33,7 @@ import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
 import com.philips.lighting.quickstart.DataClass.dummy.LightSettingsAdapter;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
+import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
@@ -89,10 +90,15 @@ public class HardwareSettingListFragment extends Fragment {
             public void ToggleBTNClick(View v, int position, ProfilesAndHardwareSettings page) {
 
                 //Toggle switch on off
-               Boolean  ToggleState = activity.TurnLightsOn(position);
+               Boolean  ToggleState = activity.ToggleLights(position);
 
                 //Save the Toggle state
-                page.setHardwareSettingsONOFF(ToggleState?1:0);
+                List<ProfilesAndHardwareSettings> ProfileList = adapter.GetProfiles();
+                List<Integer> Positions = adapter.GetPositions();
+
+                ProfileList.get(Positions.get(position)).setHardwareSettingsONOFF(ToggleState?1:0);
+
+               // page.setHardwareSettingsONOFF(ToggleState?1:0);
             }
 
             @Override
@@ -135,19 +141,20 @@ public class HardwareSettingListFragment extends Fragment {
                 List<ProfilesAndHardwareSettings> ProfileList = adapter.GetProfiles();
                 List<Integer> Positions = adapter.GetPositions();
 
+                ProfileSettingRepo PS = new ProfileSettingRepo();
+
+
                 //Update
                 for(int i = 0; i < Positions.size(); i++){
 
                     HardwareSettings HW = new HardwareSettings();
 
-                    System.out.println("this is the name: " +ProfileList.get(Positions.get(i)).getHardwareName() );
                     HW.setHardwareName(ProfileList.get(Positions.get(i)).getHardwareName());
                     HW.setName(ProfileList.get(Positions.get(i)).getHardwareSettingsName());
                     HW.setBrightness(ProfileList.get(Positions.get(i)).getHardwareSettingBrightness());
-                    HW.setProfileName(ProfileList.get(Positions.get(i)).getHardwareSettingsPName());
-                    HW.setLightOnOff(ProfileList.get(Positions.get(i)).getHardwareSettingsONOFF()?1:0);
-
-                    hardwareSettingRepo.Update(HW,Positions.get(i));
+                    HW.setProfileName(PS.GetLastName());
+                    HW.setLightOnOff(ProfileList.get(Positions.get(i)).getHardwareSettingsONOFF()? 1:0);
+                    hardwareSettingRepo.Update(HW);
                 }
 
                 activity.replaceFragment("ProfileAddFragment");

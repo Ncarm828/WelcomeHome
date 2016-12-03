@@ -53,9 +53,9 @@ public class LightSettingsAdapter extends RecyclerView.Adapter<LightSettingsAdap
     @Override
     public void onBindViewHolder(LightSettingsAdapter.MyViewHolder holder, int position) {
          page = ProfileList.get(ListPosition.get(position));
-
+        System.out.println("NICK       " + page.getHardwareSettingsONOFF());
        if(page.getPersonalSettingsName().equals(ProfileSettingRepo.GetLastName())) {
-
+           System.out.println("NICK     2   " +  page.getHardwareSettingsONOFF());
            holder.title.setText(page.getHardwareName());
            holder.On_Off.setChecked(page.getHardwareSettingsONOFF());
            holder.Brightness.setProgress(page.getHardwareSettingBrightness());
