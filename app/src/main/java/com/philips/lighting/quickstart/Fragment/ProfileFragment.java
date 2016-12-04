@@ -1,6 +1,7 @@
 package com.philips.lighting.quickstart.Fragment;
 
 
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -118,8 +119,6 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
-
-
 
     /**
      * This will take all the data from the database and display it to the user

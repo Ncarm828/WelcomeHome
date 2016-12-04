@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.philips.lighting.hue.listener.PHLightListener;
-import com.philips.lighting.hue.sdk.PHHueSDK;
-import com.philips.lighting.model.PHBridge;
-import com.philips.lighting.model.PHBridgeResource;
-import com.philips.lighting.model.PHHueError;
-import com.philips.lighting.model.PHLight;
-import com.philips.lighting.model.PHLightState;
 import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
@@ -38,7 +29,6 @@ import com.philips.lighting.quickstart.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Nicks on 11/29/2016.
@@ -57,10 +47,6 @@ public class HardwareSettingListFragment extends Fragment {
     private MyApplicationActivity activity;
 
     private HardwareSettingRepo hardwareSettingRepo;
-
-
-
-
 
 
     public  HardwareSettingListFragment(){}

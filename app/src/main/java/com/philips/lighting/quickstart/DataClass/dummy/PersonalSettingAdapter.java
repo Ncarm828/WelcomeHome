@@ -83,15 +83,11 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
         ProfileSettings profileSettings = EachProfileList.get(position);
         holder.position = position;
 
-        //holder.title.setText(page.getPersonalSettingsName());
-        //holder.count.setText("Default Page: " + page.isPersonalSettingsActive());
-        //holder.thumbnail.setImageBitmap(BitmapFactory.decodeByteArray(page.getPersonalSettingsThumbnail(), 0, page.getPersonalSettingsThumbnail().length));
         holder.title.setText(profileSettings.getName());
         holder.count.setText("Default Page: " + profileSettings.getActive());
         holder.thumbnail.setImageBitmap(BitmapFactory.decodeByteArray(profileSettings.getThumbnail(), 0, profileSettings.getThumbnail().length));
 
         // loading album cover using Glide library
-       // Glide.with(mContext).load(page.getPersonalSettingsThumbnail()).asBitmap().into(holder.thumbnail);
         Glide.with(mContext).load(profileSettings.getThumbnail()).asBitmap().into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +129,8 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
                     Toast.makeText(mContext, "Edit", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
-                   // hardwareSettingRepo.DeleteProfile(ProfileList.get(position).getPersonalSettingsName());
-                    //ProfileList.remove(position);
+                    hardwareSettingRepo.Delete(ProfileList.get(position).getPersonalSettingsName());
+                    ProfileList.remove(position);
                     profileSettingRepo.deleteProfile(EachProfileList.get(position).getName());
                     EachProfileList.remove(position);
                     notifyDataSetChanged();

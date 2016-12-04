@@ -2,6 +2,7 @@ package com.philips.lighting.quickstart.DataClass.repo;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -73,10 +74,6 @@ public class HardwareSettingRepo {
         whereClauseArgument[0] = setting.getHardwareName();
         whereClauseArgument[1] = setting.getProfileName();
 
-        System.out.println(whereClauseArgument[0]);
-        System.out.println(whereClauseArgument[1]);
-        System.out.println(setting.getLightOnOff());
-
         // Updating Row
         db.update(HardwareSettings.TABLE, values, HardwareSettings.KEY_HardwareName +
                 " = ?" + " AND " + HardwareSettings.KEY_PName + " = ?", whereClauseArgument);
@@ -146,31 +143,20 @@ public class HardwareSettingRepo {
 
     }
 
-    public void DeleteProfile(String name){
+    public void Delete (String name) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        db.beginTransaction();
 
-        String selectQuery1 =
-                " DELETE FROM ProfileSettings WHERE " + ProfileSettings.KEY_Name + " IN (SELECT " + ProfileSettings.KEY_Name + " FROM HardwareSettings WHERE "+HardwareSettings.KEY_PName +" = " + name +"); ";
-        String selectQuery2 =
-                " DELETE FROM HardwareSettings WHERE "+HardwareSettings.KEY_PName + " = " + name +";";
-
-        try{
-            db.beginTransaction();
-
-            Log.d(TAG, selectQuery1);
-            Log.d(TAG, selectQuery2);
-            db.execSQL(selectQuery1);
-            db.execSQL(selectQuery2);
+        try {
+            db.execSQL("delete from " + ProfileSettings.TABLE + " where " +ProfileSettings.KEY_Name + " ='" + name + "'");
+            db.execSQL("delete from " + HardwareSettings.TABLE + " where " +HardwareSettings.KEY_PName + " ='" + name + "'");
             db.setTransactionSuccessful();
-
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }finally {
+        } catch (SQLException e) {
+            Log.d("Database Profile: ", "Error while trying to delete  users detail");
+        } finally {
             db.endTransaction();
+            DatabaseManager.getInstance().closeDatabase();
         }
-
-        DatabaseManager.getInstance().closeDatabase();
-
     }
 
     //Testing. prints table

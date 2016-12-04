@@ -5,53 +5,53 @@
     density="xhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="1176981615742252"
+    timestamp="1271286986622508"
     token="-9182932624023177363"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="352" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="92" />
     <task
         name="verifier"
-        duration="0" />
+        duration="17" />
+
+    <artifact
+        location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
+        type="DEX" />
+    <artifact
+        location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_4\classes.dex"
+        type="DEX" />
 
     <build
-        timestamp="1165593718466654"
+        timestamp="1268823040445260"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="1168921505892662"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_4\classes.dex"
-            type="DEX" />
-    </build>
-    <build
-        timestamp="1175770315273569"
+        timestamp="1271182732483681"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_1\classes.dex"
             type="DEX" />
     </build>
     <build
-        timestamp="1176886236970979"
+        timestamp="1271286986622508"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_9\classes.dex"
             type="DEX" />
+        <artifact
+            location="C:\Users\Nicks\Documents\Temple University\Fall 2016\Independent Studies\QuickStartApp\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_4\classes.dex"
+            type="DEX" />
     </build>
-    <build
-        timestamp="1176981615742252"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

@@ -44,10 +44,6 @@ public class MyApplicationActivity extends Activity{
     private HardwareSettingRepo hardwareSettingRepo;
     private ProfileSettingRepo profileSettingRepo;
 
-    //Fragment objects
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-
     //Fragments
     ProfileFragment MainDisplayFragment;
     ProfileAddFragment AddFragment;
@@ -59,6 +55,7 @@ public class MyApplicationActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
 
@@ -69,11 +66,10 @@ public class MyApplicationActivity extends Activity{
         hardwareSettingRepo = new HardwareSettingRepo();
         profileSettingRepo = new ProfileSettingRepo();
 
-
         //For testing
-        hardwareRepo.delete();
-        hardwareSettingRepo.delete();
-        profileSettingRepo.delete();
+       // hardwareRepo.delete();
+       // hardwareSettingRepo.delete();
+       // profileSettingRepo.delete();
 
         //Connects to Philips SDK
         phHueSDK = PHHueSDK.create();
@@ -84,11 +80,14 @@ public class MyApplicationActivity extends Activity{
         MainDisplayFragment = new ProfileFragment();
         LightListFragment = new HardwareSettingListFragment();
 
-        //Fragment Handler
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.MainFragmentChange, MainDisplayFragment);
-        fragmentTransaction.commit();
+        if (savedInstanceState == null) {
+
+            //Fragment Handler
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.MainFragmentChange, MainDisplayFragment);
+            fragmentTransaction.commit();
+        }
 
     }
 
@@ -269,8 +268,7 @@ public class MyApplicationActivity extends Activity{
 
     public void replaceFragment(String name) {
 
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction  fragmentTransaction = getFragmentManager().beginTransaction();
 
         if (name == "ProfileAddFragment") {
             fragmentTransaction.replace(R.id.MainFragmentChange, MainDisplayFragment).addToBackStack(null);
