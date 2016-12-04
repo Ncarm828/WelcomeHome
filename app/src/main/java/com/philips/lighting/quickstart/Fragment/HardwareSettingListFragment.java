@@ -30,13 +30,8 @@ import com.philips.lighting.quickstart.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Nicks on 11/29/2016.
- */
 
 public class HardwareSettingListFragment extends Fragment {
-
-    private static final String TAG = HardwareSettingListFragment.class.getSimpleName().toString();
 
     //Card variables
     private RecyclerView recyclerView;
@@ -83,8 +78,6 @@ public class HardwareSettingListFragment extends Fragment {
                 List<Integer> Positions = adapter.GetPositions();
 
                 ProfileList.get(Positions.get(position)).setHardwareSettingsONOFF(ToggleState?1:0);
-
-               // page.setHardwareSettingsONOFF(ToggleState?1:0);
             }
 
             @Override
@@ -93,8 +86,12 @@ public class HardwareSettingListFragment extends Fragment {
                 //Change the light setting so the user can see the change
                  activity.ChangeLightBrightness(position,amount);
 
+                //Save the Toggle state
+                List<ProfilesAndHardwareSettings> ProfileList = adapter.GetProfiles();
+                List<Integer> Positions = adapter.GetPositions();
+
                 //saves the Brightness
-                page.setHardwareSettingBrightness(amount);
+                ProfileList.get(Positions.get(position)).setHardwareSettingBrightness(amount);
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);

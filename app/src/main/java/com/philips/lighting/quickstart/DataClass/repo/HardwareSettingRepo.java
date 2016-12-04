@@ -148,8 +148,8 @@ public class HardwareSettingRepo {
         db.beginTransaction();
 
         try {
-            db.execSQL("delete from " + ProfileSettings.TABLE + " where " +ProfileSettings.KEY_Name + " ='" + name + "'");
-            db.execSQL("delete from " + HardwareSettings.TABLE + " where " +HardwareSettings.KEY_PName + " ='" + name + "'");
+            db.execSQL("delete from " + ProfileSettings.TABLE + " where " +ProfileSettings.KEY_Name + " = '" + name + "'");
+            db.execSQL("delete from " + HardwareSettings.TABLE + " where " +HardwareSettings.KEY_PName + " = '" + name + "'");
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.d("Database Profile: ", "Error while trying to delete  users detail");

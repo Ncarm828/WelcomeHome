@@ -94,7 +94,9 @@ public class ProfileFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new ProfileFragment.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setOverScrollMode(view.OVER_SCROLL_ALWAYS);
         recyclerView.setAdapter(adapter);
+
 
         //places actual items within the cards
         preparePersonalSettingCards();
@@ -238,7 +240,6 @@ public class ProfileFragment extends Fragment {
                 //Create object for Databases
                 ProfileSettingRepo PSR = new ProfileSettingRepo();
                 HardwareSettingRepo HSR = new HardwareSettingRepo();
-                HardwareRepo HR = new HardwareRepo();
                 ProfilesAndHardwareSettings PHS;
 
                 //Get the profile that was clicked
@@ -256,6 +257,9 @@ public class ProfileFragment extends Fragment {
                     //Checks to see if the clicked profile name matches any row. Note: unknown amount because it depends in what hardware is connected
                     if(PHS.getPersonalSettingsName().equals(ProfileName)){
                         activity.TurnLightsOn(PHS.getHardwareName(), PHS.getHardwareSettingsONOFF());
+                        if(PHS.getHardwareSettingsONOFF()){
+                            activity.setBrightness(PHS.getHardwareName(),PHS.getHardwareSettingBrightness());
+                        }
                     }
                 }
             }

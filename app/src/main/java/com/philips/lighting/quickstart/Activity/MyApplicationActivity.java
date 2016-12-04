@@ -254,6 +254,23 @@ public class MyApplicationActivity extends Activity{
         return returnState;
     }
 
+    public synchronized void setBrightness(String name ,int brightness){
+        PHLightState lightState = new PHLightState();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
+
+        for (PHLight light : allLights) {
+            if(light.getName().equals(name)) {
+                //Since we are using REST API there is a possible null returned if the state DNE, this is defensive check
+                try {
+                    lightState.setBrightness(brightness);
+                } catch (NullPointerException e) {
+                    Log.i(TAG, "The light has a NULL state on the Bridges cache");
+                }
+                bridge.updateLightState(light, lightState, listener);
+            }
+        }
+    }
+
 
     private int CLAMP (int ValueChecked, int min , int max){
         if( ValueChecked < min){

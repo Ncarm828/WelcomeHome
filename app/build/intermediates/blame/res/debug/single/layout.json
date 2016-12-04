@@ -4,10 +4,6 @@
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.4.0\\res\\layout\\design_layout_snackbar_include.xml"
     },
     {
-        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_blank.xml",
-        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\fragment_blank.xml"
-    },
-    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_start.xml",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\activity_start.xml"
     },
@@ -88,10 +84,6 @@
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
-        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\prompt_userpass.xml",
-        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\prompt_userpass.xml"
-    },
-    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_toolbar.xml"
     },
@@ -140,20 +132,12 @@
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\fragment_profile.xml"
     },
     {
-        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\image_item.xml",
-        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\image_item.xml"
-    },
-    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_singlechoice_material.xml",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\select_dialog_singlechoice_material.xml"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
-    },
-    {
-        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_listoflights.xml",
-        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\fragment_listoflights.xml"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item_separator.xml",
@@ -230,10 +214,6 @@
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_action_mode_close_item_material.xml"
-    },
-    {
-        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_listoflights_list.xml",
-        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\layout\\fragment_listoflights_list.xml"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
