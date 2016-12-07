@@ -12,8 +12,16 @@
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-hdpi\\produvia_man_home.png"
     },
     {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_settings_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-hdpi\\ic_settings_white_24dp.png"
+    },
+    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\produvia_man_support.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-hdpi\\produvia_man_support.png"
+    },
+    {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_nfc_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-hdpi\\ic_nfc_white_24dp.png"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi\\ic_on.png",

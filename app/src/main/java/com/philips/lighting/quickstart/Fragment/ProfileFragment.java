@@ -1,25 +1,36 @@
 package com.philips.lighting.quickstart.Fragment;
 
 
-import android.content.res.Configuration;
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.nfc.FormatException;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHLight;
@@ -27,12 +38,15 @@ import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.Model.Hardware;
 import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
+import com.philips.lighting.quickstart.DataClass.ThreadClass.NFCReaderTask;
+import com.philips.lighting.quickstart.DataClass.ThreadClass.NFCWriteTask;
 import com.philips.lighting.quickstart.DataClass.dummy.PersonalSettingAdapter;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +58,7 @@ public class ProfileFragment extends Fragment {
     //Card variables
     private RecyclerView recyclerView;
     private PersonalSettingAdapter adapter;
-    private ArrayList<ProfileSettings> ProfileList;
+   // private ArrayList<ProfileSettings> ProfileList;
     public String ClassName = "ProfileFragment";
 
     private MyApplicationActivity activity;
@@ -54,6 +68,11 @@ public class ProfileFragment extends Fragment {
     private ProfileSettingRepo profileSettingRepo;
 
     private PHHueSDK phHueSDK;
+
+    //NFC
+    public static final String ERROR_DETECTED = "No NFC tag detected!";
+    public static final String WRITE_SUCCESS = "Text written to the NFC tag successfully!";
+    public Tag MyTag;
 
 
     public ProfileFragment() {
@@ -83,11 +102,11 @@ public class ProfileFragment extends Fragment {
 
         //gets the view, adapter and recycle view
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        ProfileList = new ArrayList<>();
+        //ProfileList = new ArrayList<>();
         adapter = new PersonalSettingAdapter(activity,hardwareSettingRepo, profileSettingRepo, new PersonalSettingAdapter.BTNListener() {
             @Override
             public void LightBtn(View v, int position) {
-                UpdateLight(v,position);
+                UpdateLight(position);
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -111,13 +130,8 @@ public class ProfileFragment extends Fragment {
             e.printStackTrace();
         }
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.replaceFragment(ClassName);
-            }
-        });
+        HandleFAB(view);
+
 
         return view;
     }
@@ -233,7 +247,7 @@ public class ProfileFragment extends Fragment {
     }
 
     //Handles Database calls and sets lights to their corresponding settings
-    private void UpdateLight(final View v, final int position){
+    private void UpdateLight(final int position){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -253,7 +267,7 @@ public class ProfileFragment extends Fragment {
 
                     //Gets each row in the database
                     PHS = AllAttributes.get(i);
-                    System.out.println("Profile Name: " + PHS.getPersonalSettingsName() + " Hardware Name: " + PHS.getHardwareName() + " Setting: " + PHS.getHardwareSettingsONOFF());
+
                     //Checks to see if the clicked profile name matches any row. Note: unknown amount because it depends in what hardware is connected
                     if(PHS.getPersonalSettingsName().equals(ProfileName)){
                         activity.TurnLightsOn(PHS.getHardwareName(), PHS.getHardwareSettingsONOFF());
@@ -264,6 +278,80 @@ public class ProfileFragment extends Fragment {
                 }
             }
         }).start();
+    }
+
+    private void HandleFAB(final View view) {
+
+        FloatingActionButton actionB = (FloatingActionButton) view.findViewById(R.id.action_b);
+        actionB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (activity.MyTag == null) {
+                    Toast.makeText(activity, ERROR_DETECTED, Toast.LENGTH_LONG).show();
+                } else {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            activity);
+
+                    // set title
+                    alertDialogBuilder.setTitle("Enter Profile Name");
+
+                    final EditText input = new EditText(activity);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    alertDialogBuilder.setView(input);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Click yes to exit!")
+                            .setCancelable(false)
+                            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    new NFCWriteTask(activity, input.getText().toString()).execute(MyTag);
+                                    Toast.makeText(activity, WRITE_SUCCESS, Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                }
+            }
+        });
+
+
+        final FloatingActionButton actionA = (FloatingActionButton) view.findViewById(R.id.action_a);
+        actionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.replaceFragment(ClassName);
+            }
+        });
+
+    }
+
+    //Not needed
+    public void ReceiveDataForNFC(Tag tag){
+        MyTag = tag;
+    }
+
+    public void SetLights(String msg){
+        ProfileSettingRepo PSR =  new ProfileSettingRepo();
+        List<ProfileSettings> LPSR = PSR.getAllProfile();
+
+        for(int i = 0; i < LPSR.size();i++){
+            if (msg.equals(LPSR.get(i).getName())){
+                UpdateLight(i);
+            }
+        }
     }
 
 }

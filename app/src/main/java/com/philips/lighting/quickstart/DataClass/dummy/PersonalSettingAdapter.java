@@ -96,7 +96,6 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
                 showPopupMenu(holder.overflow, position);
             }
         });
-
     }
 
     /**

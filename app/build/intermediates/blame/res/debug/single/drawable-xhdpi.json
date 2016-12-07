@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_nfc_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_nfc_white_24dp.png"
+    },
+    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\logo.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-xhdpi\\logo.png"
     },
@@ -14,5 +18,9 @@
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_add_white_24dp.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_add_white_24dp.png"
+    },
+    {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\ic_settings_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-xhdpi\\ic_settings_white_24dp.png"
     }
 ]

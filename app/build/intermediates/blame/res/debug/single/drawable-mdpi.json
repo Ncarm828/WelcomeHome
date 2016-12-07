@@ -1,7 +1,15 @@
 [
     {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\ic_settings_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-mdpi\\ic_settings_white_24dp.png"
+    },
+    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\running_man.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-mdpi\\running_man.png"
+    },
+    {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\ic_nfc_white_24dp.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\src\\main\\res\\drawable-mdpi\\ic_nfc_white_24dp.png"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi\\logo.png",

@@ -12,17 +12,17 @@ fix will be needed later on
 Next release ideas:
 1. Get color lights
 2. Be able to get pictures off the web and used for the profiles
+3. Add edit options
+4. Create light class that thread safe so you can thread the lights
 
 
 
 Notes:
 
-1.Fix Delete
-2. Add edit options
-3. Fix it looks horrible
+1.Fix Delete - DONE
+2. Fix UI it looks horrible
 4. clean code up
 5. Comment everything that makes not sense
-6. Get rid of unused xml files and other usless java files
+6. Get rid of unused xml files and other useless java files - DONE
 7. make new diagrams for the updates
 8. Start using threads for database
-9. Create light class that thread safe so you can thread the lights

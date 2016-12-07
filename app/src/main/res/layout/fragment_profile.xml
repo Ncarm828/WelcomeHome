@@ -1,10 +1,11 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/main_content"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@android:color/white"
-android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
 
 <android.support.design.widget.AppBarLayout
     android:id="@+id/appbar"
@@ -60,6 +61,7 @@ android:fitsSystemWindows="true">
                     android:textSize="@dimen/backdrop_subtitle" />
 
             </LinearLayout>
+
         </RelativeLayout>
 
         <android.support.v7.widget.Toolbar
@@ -74,14 +76,48 @@ android:fitsSystemWindows="true">
 </android.support.design.widget.AppBarLayout>
 
 <include layout="@layout/content_main" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<android.support.design.widget.FloatingActionButton
-    android:id="@+id/fab"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:layout_margin="@dimen/fab_margin"
-    app:srcCompat="@drawable/ic_add_white_24dp"
-    app:backgroundTint="@color/mustard"/>
 
+
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/multiple_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            fab:fab_addButtonColorNormal="@color/red"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/white"
+            fab:fab_labelStyle="@style/menu_labels_style"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/red"
+                fab:fab_title="Add New Profile"
+                fab:fab_colorPressed="@color/white_pressed"
+                fab:fab_icon="@drawable/ic_settings_white_24dp" />
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/action_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/red"
+                fab:fab_title="Add NFC"
+                fab:fab_colorPressed="@color/white_pressed"
+                fab:fab_icon="@drawable/ic_nfc_white_24dp" />
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

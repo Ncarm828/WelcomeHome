@@ -11,6 +11,7 @@ import com.philips.lighting.quickstart.DataClass.Model.Hardware;
 import com.philips.lighting.quickstart.DataClass.Model.HardwareSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
+import com.philips.lighting.quickstart.Fragment.HardwareSettingListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,12 +145,16 @@ public class HardwareSettingRepo {
     }
 
     public void Delete (String name) {
+        int loop = 0;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.beginTransaction();
 
         try {
             db.execSQL("delete from " + ProfileSettings.TABLE + " where " +ProfileSettings.KEY_Name + " = '" + name + "'");
-            db.execSQL("delete from " + HardwareSettings.TABLE + " where " +HardwareSettings.KEY_PName + " = '" + name + "'");
+            do {
+                db.execSQL("delete from " + HardwareSettings.TABLE + " where " + HardwareSettings.KEY_PName + " = '" + name + "'");
+                loop++;
+            }while(loop < 2);
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.d("Database Profile: ", "Error while trying to delete  users detail");

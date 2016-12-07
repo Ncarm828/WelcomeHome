@@ -1,14 +1,27 @@
 package com.philips.lighting.quickstart.Activity;
 
 //Other imports
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
 import android.app.FragmentManager; //keep for now
 import android.app.FragmentTransaction; //keep for now
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 //Philips imports
 import com.philips.lighting.hue.listener.PHLightListener;
@@ -21,6 +34,8 @@ import com.philips.lighting.model.PHLightState;
 import com.philips.lighting.quickstart.DataClass.Database.DBHelper;
 import com.philips.lighting.quickstart.DataClass.Database.DatabaseManager;
 import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
+import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
+import com.philips.lighting.quickstart.DataClass.ThreadClass.NFCReaderTask;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
@@ -49,6 +64,12 @@ public class MyApplicationActivity extends Activity{
     ProfileAddFragment AddFragment;
     HardwareSettingListFragment LightListFragment;
 
+    public Tag MyTag;
+    NfcAdapter nfcAdapter;
+    PendingIntent pendingIntent;
+    IntentFilter writeTagFilters[];
+    boolean writeMode;
+
 
 
     @Override
@@ -62,11 +83,11 @@ public class MyApplicationActivity extends Activity{
         //Database
         dbHelper = new DBHelper(this);
         DatabaseManager.initializeInstance(dbHelper);
-        hardwareRepo = new HardwareRepo();
-        hardwareSettingRepo = new HardwareSettingRepo();
-        profileSettingRepo = new ProfileSettingRepo();
+        hardwareRepo = new HardwareRepo(); //Lights
+        hardwareSettingRepo = new HardwareSettingRepo(); //Lights settings
+        profileSettingRepo = new ProfileSettingRepo(); //Profiles
 
-        //For testing
+        //For testing - Keep for later use
        // hardwareRepo.delete();
        // hardwareSettingRepo.delete();
        // profileSettingRepo.delete();
@@ -89,6 +110,39 @@ public class MyApplicationActivity extends Activity{
             fragmentTransaction.commit();
         }
 
+        //NFC
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
+            // Stop here, we definitely need NFC
+            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+        }
+
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
+        writeTagFilters = new IntentFilter[] { tagDetected };
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        WriteModeOn();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        WriteModeOff();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())){
+            MyTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            new  NFCReaderTask(this).execute(MyTag);
+            MainDisplayFragment.ReceiveDataForNFC(MyTag);
+        }
     }
 
 
@@ -131,7 +185,6 @@ public class MyApplicationActivity extends Activity{
         public void onReceivingLights(List<PHBridgeResource> arg0) {
             for(int i = 0; i < arg0.size(); i++){
                 System.out.println(arg0.get(i).getName());
-                //hardwareRepo.CheckIsDataAlreadyInDBorNot("");
             }
         }
 
@@ -164,12 +217,6 @@ public class MyApplicationActivity extends Activity{
 
     public ProfileSettingRepo getProfileSettingRepo() {
         return profileSettingRepo;
-    }
-
-
-    public void PrintDataBase(){
-        //Check DB manager comments before calling this function
-        System.out.println(dbHelper.getTableAsString(DatabaseManager.getInstance().openDatabase(), ProfileSettings.TABLE));
     }
 
 
@@ -254,6 +301,7 @@ public class MyApplicationActivity extends Activity{
         return returnState;
     }
 
+    //Set brightness of the lights
     public synchronized void setBrightness(String name ,int brightness){
         PHLightState lightState = new PHLightState();
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
@@ -271,7 +319,7 @@ public class MyApplicationActivity extends Activity{
         }
     }
 
-
+    //Defensive check that clamp the value
     private int CLAMP (int ValueChecked, int min , int max){
         if( ValueChecked < min){
             ValueChecked = min;
@@ -283,6 +331,29 @@ public class MyApplicationActivity extends Activity{
 
 
 
+    /******************************************************************************
+     **********************************Enable Write********************************
+     ******************************************************************************/
+    private void WriteModeOn(){
+        writeMode = true;
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, writeTagFilters, null);
+    }
+    /******************************************************************************
+     **********************************Disable Write*******************************
+     ******************************************************************************/
+    private void WriteModeOff(){
+        writeMode = false;
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    //Testing
+    public void SetLights(String msg){
+        MainDisplayFragment.SetLights(msg);
+
+    }
+
+
+    //used for fragment replacement
     public void replaceFragment(String name) {
 
         FragmentTransaction  fragmentTransaction = getFragmentManager().beginTransaction();
@@ -295,16 +366,6 @@ public class MyApplicationActivity extends Activity{
             fragmentTransaction.replace(R.id.MainFragmentChange,LightListFragment ).addToBackStack(null);
         }
         fragmentTransaction.commit();
-    }
-
-
-    /******************************************************************
-     * Starts up the LoginActivity - called on user sign out
-     *****************************************************************/
-    public void runWelcomeActivity() {
-        Intent intent = new Intent(MyApplicationActivity.this, StartActivity.class);
-        startActivity(intent);
-        finish();
     }
 
 }

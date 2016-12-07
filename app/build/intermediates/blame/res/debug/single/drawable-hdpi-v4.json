@@ -8,6 +8,10 @@
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_cab_background_top_mtrl_alpha.9.png"
     },
     {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\fab_bg_normal.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.getbase\\floatingactionbutton\\1.10.1\\res\\drawable-hdpi-v4\\fab_bg_normal.png"
+    },
+    {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_ic_star_black_16dp.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_ic_star_black_16dp.png"
     },
@@ -134,6 +138,10 @@
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_btn_check_to_on_mtrl_000.png",
         "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\fab_bg_mini.png",
+        "source": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\exploded-aar\\com.getbase\\floatingactionbutton\\1.10.1\\res\\drawable-hdpi-v4\\fab_bg_mini.png"
     },
     {
         "merged": "C:\\Users\\Nicks\\Documents\\Temple University\\Fall 2016\\Independent Studies\\QuickStartApp\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png",

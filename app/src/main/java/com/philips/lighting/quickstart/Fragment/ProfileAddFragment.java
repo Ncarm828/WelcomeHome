@@ -123,6 +123,11 @@ public class ProfileAddFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+                //Clears the text field. The last value entered will stay if not cleared
+                name.setText("");
+                Default.setChecked(false);
+
                 activity.replaceFragment(ClassName);
             }
 
