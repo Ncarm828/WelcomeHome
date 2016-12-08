@@ -86,14 +86,11 @@ public class HardwareSettingRepo {
         return true;
     }
 
-
     public void delete( ) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(HardwareSettings.TABLE, null, null);
         DatabaseManager.getInstance().closeDatabase();
     }
-
-
 
     public List<ProfilesAndHardwareSettings> getProfilesAndHardwareSettings(){
         ProfilesAndHardwareSettings profileSettingList;
@@ -141,7 +138,6 @@ public class HardwareSettingRepo {
         DatabaseManager.getInstance().closeDatabase();
 
         return ProfileSettingsLists;
-
     }
 
     public void Delete (String name) {

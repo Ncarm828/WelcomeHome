@@ -123,7 +123,7 @@ public class ProfileSettingRepo {
 
         try {
             db.beginTransaction();
-            db.execSQL("delete from " + com.philips.lighting.quickstart.DataClass.Model.ProfileSettings.TABLE + " where name ='" + name + "'");
+            db.execSQL("delete from " + ProfileSettings.TABLE + " where " + ProfileSettings.KEY_Name + " ='" + name + "'");
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             Log.d("Database Profile: ", "Error while trying to delete  users detail");

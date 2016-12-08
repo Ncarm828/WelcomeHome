@@ -7,6 +7,10 @@ fix will be needed later on
 
 2. If a user adds another profile with the same name, major problems will occur. Fix this ASAP
 
+3. There is a issue with the database where it doesnt actually delete the element. twill over write other profile.
+if you contiune to delete the element then create it again, the element will delete the element next to it
+till it deletes all elements.
+
 
 
 Next release ideas:
@@ -20,9 +24,9 @@ Next release ideas:
 Notes:
 
 1.Fix Delete - DONE
-2. Fix UI it looks horrible
-4. clean code up
+2. Fix UI it looks horrible - KINDA?
+4. clean code up - EH
 5. Comment everything that makes not sense
 6. Get rid of unused xml files and other useless java files - DONE
 7. make new diagrams for the updates
-8. Start using threads for database
+8. Start using threads for database - Later

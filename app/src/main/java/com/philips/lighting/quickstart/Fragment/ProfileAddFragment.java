@@ -29,6 +29,7 @@ import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,6 +54,10 @@ public class ProfileAddFragment extends Fragment {
 
     //SDK for the lights
     private PHHueSDK phHueSDK;
+
+
+    //List to solve a database issue. this is a workaround and needs to be fixed
+    public List<String> ProfileNames = new ArrayList<>();
 
     public String ClassName = "ProfileAddFragment";
 
@@ -84,6 +89,9 @@ public class ProfileAddFragment extends Fragment {
         profileSettingRepo = activity.getProfileSettingRepo();
         settings = activity.getHardwareSettingRepo();
 
+        //places random photo for user
+        LoadImage();
+
         //Create and handles the create button for the profile
         Button CreateProfileButton;
         CreateProfileButton = (Button) view.findViewById(R.id.SaveSettingsButton);
@@ -91,13 +99,14 @@ public class ProfileAddFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if(name.getText().toString().trim().length() != 0){
+                if(name.getText().toString().trim().length() != 0 && !ProfileNames.contains(name.getText().toString())){
+                    ProfileNames.add(name.getText().toString());
                     SaveProfile(v);
                 }else{
                     name.getBackground().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
                     warningMessage.setVisibility(View.VISIBLE);
                     Snackbar snackbar = Snackbar
-                            .make(view, "There were some elements missing", Snackbar.LENGTH_LONG);
+                            .make(view, "Elements missing or name already used", Snackbar.LENGTH_LONG);
 
                     snackbar.show();
                 }
@@ -151,8 +160,22 @@ public class ProfileAddFragment extends Fragment {
         return view;
     }
 
+    private void LoadImage(){
+        int[] images = new int[] {R.drawable.cs_vintage, R.drawable.cs_sea, R.drawable.cs_savana,
+                R.drawable.cs_rainforest, R.drawable.cs_aurora, R.drawable.cs_cicada,
+                R.drawable.cs_desert, R.drawable.cs_drip, R.drawable.cs_mediteranian};
+
+        // Get a random between 0 and images.length-1
+        int imageId = (int)(Math.random() * images.length);
+
+        // Set the image
+        CurrentPicture.setBackgroundResource(images[imageId]);
+    }
+
+
     //Used for saving the new profile entry into the database
     public void SaveProfile(View view) {
+
         ProfileSettings profileSettings = new ProfileSettings();
 
         profileSettings.setName(name.getText().toString());
@@ -161,6 +184,8 @@ public class ProfileAddFragment extends Fragment {
 
         if(profileSettingRepo.insert(profileSettings) > 0){ //returns the ID of the item we just placed
             HandleLights(profileSettings.getName());
+            name.setText("");
+            Default.setChecked(false);
             activity.replaceFragment("HardwareSettingListFragment");
         } else{
             Toast.makeText(getActivity(), "Not Saved, there were some issues",

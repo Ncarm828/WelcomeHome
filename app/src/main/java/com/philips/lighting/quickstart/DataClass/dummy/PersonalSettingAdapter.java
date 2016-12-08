@@ -78,13 +78,12 @@ public class PersonalSettingAdapter extends RecyclerView.Adapter<PersonalSetting
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-       // ProfilesAndHardwareSettings page = ProfileList.get(position);
 
         ProfileSettings profileSettings = EachProfileList.get(position);
         holder.position = position;
 
         holder.title.setText(profileSettings.getName());
-        holder.count.setText("Default Page: " + profileSettings.getActive());
+       // holder.count.setText("Default Page: " + profileSettings.getActive());
         holder.thumbnail.setImageBitmap(BitmapFactory.decodeByteArray(profileSettings.getThumbnail(), 0, profileSettings.getThumbnail().length));
 
         // loading album cover using Glide library

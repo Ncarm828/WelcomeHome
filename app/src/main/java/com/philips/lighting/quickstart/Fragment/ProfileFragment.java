@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.nfc.FormatException;
@@ -30,7 +31,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHLight;
@@ -38,7 +38,6 @@ import com.philips.lighting.quickstart.Activity.MyApplicationActivity;
 import com.philips.lighting.quickstart.DataClass.Model.Hardware;
 import com.philips.lighting.quickstart.DataClass.Model.ProfileSettings;
 import com.philips.lighting.quickstart.DataClass.Model.ProfilesAndHardwareSettings;
-import com.philips.lighting.quickstart.DataClass.ThreadClass.NFCReaderTask;
 import com.philips.lighting.quickstart.DataClass.ThreadClass.NFCWriteTask;
 import com.philips.lighting.quickstart.DataClass.dummy.PersonalSettingAdapter;
 import com.philips.lighting.quickstart.DataClass.repo.HardwareRepo;
@@ -46,8 +45,6 @@ import com.philips.lighting.quickstart.DataClass.repo.HardwareSettingRepo;
 import com.philips.lighting.quickstart.DataClass.repo.ProfileSettingRepo;
 import com.philips.lighting.quickstart.R;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -125,7 +122,7 @@ public class ProfileFragment extends Fragment {
 
         //Places image at top of the screen
         try {
-            Glide.with(this).load(R.drawable.cover).into((ImageView) view.findViewById(R.id.backdrop));
+            Glide.with(this).load(R.drawable.home_lighting_banner).into((ImageView) view.findViewById(R.id.backdrop));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,6 +132,7 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
 
     /**
      * This will take all the data from the database and display it to the user

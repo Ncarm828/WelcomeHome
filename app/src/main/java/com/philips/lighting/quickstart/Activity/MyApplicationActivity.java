@@ -3,6 +3,7 @@ package com.philips.lighting.quickstart.Activity;
 //Other imports
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.app.FragmentTransaction; //keep for now
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -72,6 +74,7 @@ public class MyApplicationActivity extends Activity{
 
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +92,8 @@ public class MyApplicationActivity extends Activity{
 
         //For testing - Keep for later use
        // hardwareRepo.delete();
-       // hardwareSettingRepo.delete();
-       // profileSettingRepo.delete();
+        //hardwareSettingRepo.delete();
+        //profileSettingRepo.delete();
 
         //Connects to Philips SDK
         phHueSDK = PHHueSDK.create();
